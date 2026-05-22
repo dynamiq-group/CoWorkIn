@@ -1,142 +1,338 @@
+/* Base Layout and Shell styles for CoWorkIn landing page */
+
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+  min-height: 100vh;
   display: flex;
-  flex: 1;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  background-color: #fffefb; /* Canvas */
 }
 
-.main {
+/* Sticky Header Nav Bar */
+.navBar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background-color: rgba(255, 254, 251, 0.95); /* Canvas with transparency */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(197, 192, 177, 0.4); /* Mute border */
+  z-index: 100;
   display: flex;
-  flex: 1;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.navContainer {
+  max-width: 1280px;
   width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
   justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  align-items: center;
 }
 
-.intro {
+/* Logo Design */
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.logoDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff4f00; /* Zapier Orange */
+  box-shadow: 0 0 10px rgba(255, 79, 0, 0.3);
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #201515; /* Ink */
+  letter-spacing: -0.5px;
+}
+
+/* Navigation Links */
+.nav {
+  display: none;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 500;
+  color: #605d52; /* Body text color */
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #ff4f00;
+}
+
+/* Header Action Buttons */
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navBtnSecondary {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #201515;
+  padding: 8px 16px;
+  transition: color 0.2s ease;
+}
+
+.navBtnSecondary:hover {
+  color: #ff4f00;
+}
+
+.navBtnPrimary {
+  font-size: 14px;
+  font-weight: 700;
+  background-color: #ff4f00; /* Orange CTA */
+  color: #fffefb;
+  padding: 10px 18px;
+  border-radius: 12px; /* rounded.md */
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(255, 79, 0, 0.15);
+}
+
+.navBtnPrimary:hover {
+  background-color: #e04500;
+  transform: translateY(-1px);
+}
+
+/* Main Layout Wrapper */
+.main {
+  flex-grow: 1;
+}
+
+/* Hero Placeholder Section */
+.heroPlaceholder {
+  max-width: 1280px;
+  margin: 32px auto 64px auto;
+  padding: 80px 24px;
+  background-color: #f8f4f0; /* Canvas Soft */
+  border-radius: 16px;
+  border: 1px solid #c5c0b1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 1024px) {
+  .heroPlaceholder {
+    grid-template-columns: 1.2fr 0.8fr;
+    margin: 40px auto 80px auto;
+    padding: 100px 48px;
+  }
+}
+
+.heroContent {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
+}
+
+.heroBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff4f00;
+  background-color: rgba(255, 79, 0, 0.08);
+  border: 1px solid rgba(255, 79, 0, 0.15);
+  padding: 6px 14px;
+  border-radius: 6px;
+  letter-spacing: 1px;
   width: fit-content;
-  font-weight: 500;
+  margin-bottom: 24px;
+  text-transform: uppercase;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.heroTitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: #201515; /* Ink */
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 20px;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 56px; /* display-xl scale */
   }
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
+.heroSubtitle {
+  font-size: 19px;
+  line-height: 1.6;
+  color: #605d52;
+  margin-bottom: 36px;
+}
 
-  .intro {
-    gap: 16px;
-  }
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
+.heroBtnPrimary {
+  background-color: #201515; /* Ink style button */
+  color: #fffefb;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 12px; /* rounded.md */
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.heroBtnPrimary:hover {
+  background-color: #ff4f00; /* Hover state slides to Orange */
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 79, 0, 0.2);
+}
+
+.heroBtnSecondary {
+  background-color: transparent;
+  color: #201515;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 30px;
+  border-radius: 12px;
+  border: 1px solid #c5c0b1;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.heroBtnSecondary:hover {
+  border-color: #201515;
+  background-color: #fffefb;
+}
+
+/* Hero Dotted Visual Placeholder */
+.heroVisualPlaceholder {
+  background-color: #e5dec9;
+  border-radius: 12px;
+  border: 1px dashed #c5c0b1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.heroDottedPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.15;
+  background-image: radial-gradient(#201515 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+.heroPlaceholderText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #605d52;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* Footer Section */
+.footer {
+  background-color: #201515; /* Ink dark fill */
+  color: #f8f4f0; /* Canvas Soft light text */
+  padding: 80px 24px 40px 24px;
+  font-family: inherit;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  border-bottom: 1px solid rgba(248, 244, 240, 0.1);
+  padding-bottom: 56px;
+}
+
+@media (min-width: 768px) {
+  .footerContainer {
+    grid-template-columns: 1.5fr repeat(3, 1fr);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+}
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+.footerBrand .logoText {
+  color: #fffefb;
+}
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+.footerBrandText {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #939084; /* body-mid secondary text */
+  margin-top: 16px;
+  max-width: 280px;
+}
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+.footerLinkCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerColTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fffefb;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.footerLinkCol a {
+  font-size: 14.5px;
+  color: #939084;
+  transition: color 0.2s ease;
+}
+
+.footerLinkCol a:hover {
+  color: #ff4f00; /* hover goes to active orange */
+}
+
+/* Footer Base Credits */
+.footerBottom {
+  max-width: 1200px;
+  margin: 32px auto 0 auto;
+  text-align: center;
+  font-size: 13px;
+  color: #605d52;
+}
+
+@media (min-width: 768px) {
+  .footerBottom {
+    text-align: left;
   }
 }
