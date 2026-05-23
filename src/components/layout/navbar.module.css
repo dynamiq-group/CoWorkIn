@@ -1,0 +1,236 @@
+.navBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 84px;
+  background-color: transparent;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scrolled state for sticky header */
+.navBar.scrolled {
+  position: fixed;
+  height: 72px;
+  background-color: rgba(20, 15, 15, 0.85); /* Sleek dark glassmorphism */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.navContainer {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo and brand name styles */
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logoWrapper:hover {
+  opacity: 0.9;
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
+  color: #ffffff;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+/* Middle Navigation Links */
+.navLinks {
+  display: none;
+  gap: 36px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navLinks {
+    display: flex;
+  }
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+  padding: 6px 0;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+
+/* Subtle under-line hover micro-animation */
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ff551f; /* Coral Orange */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Contact Us Button on Right */
+.navActions {
+  display: none;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navActions {
+    display: flex;
+  }
+}
+
+.ctaButton {
+  font-size: 14.5px;
+  font-weight: 600;
+  background-color: #ff551f; /* Coral/orange match from the image */
+  color: #ffffff;
+  padding: 10px 24px;
+  border-radius: 40px; /* Pill shaped */
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(255, 85, 31, 0.25);
+  text-decoration: none;
+}
+
+.ctaButton:hover {
+  background-color: #e04413;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(255, 85, 31, 0.4);
+}
+
+/* Mobile Hamburger Menu icon */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 110;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+.bar {
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger Transformations */
+.hamburgerActive .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburgerActive .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerActive .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Dropdown Drawer */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100vh;
+  background-color: #140f0f; /* Dark background matching the theme */
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobileMenuOpen {
+  right: 0;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  padding: 24px;
+}
+
+.mobileNavLink {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileNavLink:hover {
+  color: #ff551f;
+}
+
+.mobileCtaButton {
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #ff551f;
+  color: #ffffff;
+  padding: 14px 40px;
+  border-radius: 40px;
+  text-decoration: none;
+  margin-top: 16px;
+  box-shadow: 0 4px 14px rgba(255, 85, 31, 0.25);
+  transition: all 0.2s ease;
+}
+
+.mobileCtaButton:hover {
+  background-color: #e04413;
+  transform: scale(1.02);
+}
