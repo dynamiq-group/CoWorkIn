@@ -1,298 +1,311 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./ShowroomSection.module.css";
+import MapPin from "./MapPin";
+import MainMapPin from "./MainMapPin";
+
+// Each secondary map pin is defined explicitly in the JSX below so you can customize
+// sizes, coordinates, colors, and animations for each city individually.
 
 export default function ShowroomSection() {
-  const [billingCycle, setBillingCycle] = useState("monthly"); // "monthly" or "pass"
-  const [selectedWorkspace, setSelectedWorkspace] = useState(null);
-  const [successBooking, setSuccessBooking] = useState(false);
+  const containerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const sourceRef = useRef(null);
+  const destRef = useRef(null);
 
-  const workspaces = [
-    {
-      id: "hot-desk",
-      title: "Hot Desk Access",
-      tag: "NOMADS & FREELANCERS",
-      image: "/images/hot_desk.png",
-      description: "Access any open seat in our warm, plant-filled common zones. Ideal for individual builders.",
-      monthlyPrice: "$250",
-      passPrice: "$19",
-      priceUnit: { monthly: "/mo", pass: "/day" },
-      amenities: ["High-speed Wi-Fi 6", "Unlimited barista espresso", "Ergonomic shared desks"],
-      popular: true,
-    },
-    {
-      id: "private-suite",
-      title: "Private Suite",
-      tag: "SCALING TEAMS",
-      image: "/images/private_office.png",
-      description: "A fully furnished, soundproofed glass office for teams of 1 to 8. Complete physical privacy.",
-      monthlyPrice: "$850",
-      passPrice: "$75",
-      priceUnit: { monthly: "/mo", pass: "/day" },
-      amenities: ["Biometric lock system", "Acoustic wall panels", "Dedicated whiteboard & TV"],
-      popular: false,
-    },
-    {
-      id: "meeting-space",
-      title: "Meeting Room",
-      tag: "COLLABORATION",
-      image: "/images/meeting_room.png",
-      description: "State-of-the-art conference and podcast rooms equipped with elite collaboration tech.",
-      monthlyPrice: "$320",
-      passPrice: "$45",
-      priceUnit: { monthly: "/10h pack", pass: "/hr" },
-      amenities: ["4K studio smart displays", "Professional studio microphones", "Adjustable climate zones"],
-      popular: false,
-    },
-    {
-      id: "cafe-pass",
-      title: "Lounge & Cafe Pass",
-      tag: "CASUAL BUILDERS",
-      image: "/images/cafe_amenity.png",
-      description: "Work from our premium designer lounge directly connected to our in-house micro-roastery.",
-      monthlyPrice: "$99",
-      passPrice: "$12",
-      priceUnit: { monthly: "/mo", pass: "/day" },
-      amenities: ["Premium artisan coffee", "Plush modular lounge seats", "Weekly networking events"],
-      popular: false,
-    },
-  ];
+  const [coords, setCoords] = useState({ startX: 0, startY: 0, endX: 0, endY: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const handleBook = (workspace) => {
-    setSelectedWorkspace(workspace);
-    setSuccessBooking(false);
+  useEffect(() => {
+    setIsMounted(true);
+    
+    const updateCoords = () => {
+      if (!sourceRef.current || !destRef.current || !containerRef.current) return;
+      
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const sourceRect = sourceRef.current.getBoundingClientRect();
+      const destRect = destRef.current.getBoundingClientRect();
+      
+      setCoords({
+        startX: sourceRect.left - containerRect.left + sourceRect.width / 2,
+        startY: sourceRect.top - containerRect.top + sourceRect.height / 2,
+        endX: destRect.left - containerRect.left + destRect.width / 2,
+        endY: destRect.top - containerRect.top + destRect.height / 2,
+      });
+    };
+
+    // Calculate coordinates once components have completed rendering
+    const timer = setTimeout(updateCoords, 250);
+
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const viewportHeight = window.innerHeight;
+
+      // Start calculating scroll progress as the section enters the viewport
+      const start = viewportHeight * 0.8;
+      const end = viewportHeight * 0.1;
+      
+      let progress = (start - sectionTop) / (start - end);
+      progress = Math.max(0, Math.min(1, progress));
+      
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateCoords);
+    window.addEventListener("load", updateCoords);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateCoords);
+      window.removeEventListener("load", updateCoords);
+    };
+  }, []);
+
+  // Safe coordination recalculation trigger
+  const handleMouseEnter = () => {
+    if (sourceRef.current && destRef.current && containerRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const sourceRect = sourceRef.current.getBoundingClientRect();
+      const destRect = destRef.current.getBoundingClientRect();
+      setCoords({
+        startX: sourceRect.left - containerRect.left + sourceRect.width / 2,
+        startY: sourceRect.top - containerRect.top + sourceRect.height / 2,
+        endX: destRect.left - containerRect.left + destRect.width / 2,
+        endY: destRect.top - containerRect.top + destRect.height / 2,
+      });
+    }
   };
 
-  const submitBooking = (e) => {
-    e.preventDefault();
-    setSuccessBooking(true);
-    setTimeout(() => {
-      setSelectedWorkspace(null);
-      setSuccessBooking(false);
-    }, 2500);
-  };
+  // 1. Flight start threshold: The pin remains perfectly static inside the text 
+  // until the user scrolls further down (progress > 0.60). This matches the user's 
+  // request to delay the flight further until the header is even higher up on the screen.
+  const flightThreshold = 0.60;
+  
+  const flightProgress = scrollProgress > flightThreshold 
+    ? (scrollProgress - flightThreshold) / (1 - flightThreshold)
+    : 0;
+
+  // Interpolate flight coordinates using the flightProgress ratio
+  const currentX = coords.startX + (coords.endX - coords.startX) * flightProgress;
+  const currentY = coords.startY + (coords.endY - coords.startY) * flightProgress;
+
+  // Parabolic vertical curve calculation for natural 3D flight paths
+  const archHeight = 120;
+  const arcY = currentY - Math.sin(flightProgress * Math.PI) * archHeight;
+
+  // Dynamic sizing (pin scales up from inline size to landing size as it approaches the map)
+  const pinSize = 22 + (46 - 22) * flightProgress;
+
+  // Render the flying overlay pin only after crossing the flight start threshold and before landing
+  const showFlyingPin = isMounted && scrollProgress > flightThreshold && coords.startX !== 0 && flightProgress < 0.98;
+
+  // Staggered network pins pop in when the main pin is 90% of the way to landing
+  const showNetwork = isMounted && flightProgress >= 0.90;
+
+  // Calculate inline static pin opacity (starts solid, fades out smoothly as flight initiates)
+  const staticPinOpacity = scrollProgress > flightThreshold
+    ? Math.max(0, 1 - (scrollProgress - flightThreshold) * 6) // Quick, seamless crossfade
+    : 1;
+
+  // Collapse width smoothly as flight initiates to let the text badge dynamically shrink
+  const staticPinWidthScale = staticPinOpacity;
 
   return (
-    <section className={styles.section} id="showroom">
-      <div className={styles.container}>
+    <section ref={sectionRef} className={styles.section} id="showroom">
+      <div ref={containerRef} className={styles.container} style={{ position: "relative" }}>
         
         {/* Section Header */}
         <div className={styles.header}>
           <span className={styles.eyebrow}>CHOOSE YOUR ENVIRONMENT</span>
-          <h2 className={styles.title}>Workspaces tailored to your daily flow</h2>
+          <h2 className={styles.title}>A Workspace Network That Grows With You</h2>
           <p className={styles.subtitle}>
-            Select the setup that fuels your momentum. All tiers feature hyper-secure networks, 
-            premium barista-crafted coffee, and full access to our creative events calendar.
-          </p>
-
-          {/* Billing Cycle Toggle */}
-          <div className={styles.toggleContainer}>
-            <button
-              onClick={() => setBillingCycle("monthly")}
-              className={`${styles.toggleBtn} ${billingCycle === "monthly" ? styles.toggleActive : ""}`}
+            Whether you're a freelancer, startup, or growing team, our coworking spaces are built to support the way you work. With flexible, inspiring environments designed for productivity and collaboration, we help businesses connect and scale effortlessly — now powering professionals across India in{" "}
+            <span 
+              className={styles.highlightCities} 
+              onMouseEnter={handleMouseEnter}
             >
-              Monthly Residency
-            </button>
-            <button
-              onClick={() => setBillingCycle("pass")}
-              className={`${styles.toggleBtn} ${billingCycle === "pass" ? styles.toggleActive : ""}`}
-            >
-              Daily & Hourly Passes
-            </button>
-          </div>
-        </div>
-
-        {/* Workspaces Grid */}
-        <div className={styles.grid}>
-          {workspaces.map((space) => {
-            const price = billingCycle === "monthly" ? space.monthlyPrice : space.passPrice;
-            const unit = billingCycle === "monthly" ? space.priceUnit.monthly : space.priceUnit.pass;
-
-            return (
-              <div 
-                key={space.id} 
-                className={`${styles.card} ${space.popular ? styles.cardPopular : ""}`}
+              {/* Static target representing the start point - collapses smoothly to shrink the badge */}
+              <span 
+                ref={sourceRef} 
+                className={styles.sourcePoint}
+                style={{
+                  width: `${staticPinWidthScale * 22}px`,
+                  marginRight: `${staticPinWidthScale * 4}px`,
+                  opacity: staticPinOpacity,
+                  overflow: "hidden",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin-right 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease"
+                }}
               >
-                {space.popular && <span className={styles.popularBadge}>MOST SELECTED</span>}
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={space.image}
-                    alt={space.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className={styles.image}
-                    priority={space.popular}
-                  />
-                </div>
-                
-                <div className={styles.cardBody}>
-                  <span className={styles.cardTag}>{space.tag}</span>
-                  <h3 className={styles.cardTitle}>{space.title}</h3>
-                  
-                  <div className={styles.priceContainer}>
-                    <span className={styles.priceNumber}>{price}</span>
-                    <span className={styles.priceUnit}>{unit}</span>
-                  </div>
-
-                  <p className={styles.cardDescription}>{space.description}</p>
-
-                  <ul className={styles.amenityList}>
-                    {space.amenities.map((amenity, i) => (
-                      <li key={i} className={styles.amenityItem}>
-                        <svg className={styles.checkIcon} viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                        {amenity}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button 
-                    onClick={() => handleBook(space)}
-                    className={space.popular ? styles.btnPrimary : styles.btnSecondary}
-                  >
-                    Check Availability
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+                <MainMapPin 
+                  className={styles.pinIcon} 
+                  size={22} 
+                />
+              </span>
+              30+ cities
+            </span>.
+          </p>
         </div>
 
-        {/* Live Premium Amenities & Tech Grid */}
-        <div className={styles.amenitiesSection}>
-          <div className={styles.amenitiesHeader}>
-            <span className={styles.eyebrow}>INFRASTRUCTURE & INTEGRITY</span>
-            <h3 className={styles.amenitiesTitle}>The CoWorkIn Standard</h3>
-          </div>
-          
-          <div className={styles.amenitiesGrid}>
-            <div className={styles.amenityCard}>
-              <div className={styles.amenityIconWrapper}>
-                <svg className={styles.amenityIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h4 className={styles.amenityCardTitle}>Enterprise Network</h4>
-              <p className={styles.amenityCardText}>
-                Dual ISP failover setup running on dedicated symmetrical fiber with smart bandwidth distribution.
-              </p>
-              <div className={styles.networkStatus}>
-                <span className={styles.pulseDot}></span>
-                <span className={styles.statusText}>980 Mbps / Symmetrical Online</span>
-              </div>
-            </div>
-
-            <div className={styles.amenityCard}>
-              <div className={styles.amenityIconWrapper}>
-                <svg className={styles.amenityIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className={styles.amenityCardTitle}>Micro-Roastery & Cafe</h4>
-              <p className={styles.amenityCardText}>
-                Enjoy unlimited barista-poured espresso and coffee selections roasted weekly in-house.
-              </p>
-              <div className={styles.badgeLine}>
-                <span className={styles.coffeeBadge}>Organic Beans</span>
-              </div>
-            </div>
-
-            <div className={styles.amenityCard}>
-              <div className={styles.amenityIconWrapper}>
-                <svg className={styles.amenityIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h4 className={styles.amenityCardTitle}>Biometric Security</h4>
-              <p className={styles.amenityCardText}>
-                24/7 keyless secure vault entry via encrypted mobile app credentials or touch biometrics.
-              </p>
-              <div className={styles.badgeLine}>
-                <span className={styles.secureBadge}>Fully Compliant</span>
-              </div>
-            </div>
-
-            <div className={styles.amenityCard}>
-              <div className={styles.amenityIconWrapper}>
-                <svg className={styles.amenityIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h4 className={styles.amenityCardTitle}>Expert Communities</h4>
-              <p className={styles.amenityCardText}>
-                Join curated expert roundtables, creator feedback sessions, and pitch nights every Tuesday.
-              </p>
-              <div className={styles.badgeLine}>
-                <span className={styles.eventBadge}>Next: May 26</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Booking Drawer */}
-        {selectedWorkspace && (
-          <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
-              <button onClick={() => setSelectedWorkspace(null)} className={styles.closeBtn}>×</button>
-              
-              {!successBooking ? (
-                <form onSubmit={submitBooking} className={styles.modalForm}>
-                  <span className={styles.modalEyebrow}>SECURE YOUR SPACE</span>
-                  <h3 className={styles.modalTitle}>Request Booking for {selectedWorkspace.title}</h3>
-                  <p className={styles.modalText}>
-                    Fill in your details below and a site host will verify real-time availability in under 15 minutes.
-                  </p>
-
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Full Name</label>
-                    <input required type="text" className={styles.input} placeholder="Jane Doe" />
+        {/* Massive Centered Animated Map of India below header */}
+        <div className={styles.mapContainer}>
+          <div className={styles.mapWrapper}>
+            <Image 
+              src="/images/India_maps.png"
+              alt="Workspace Network Map of India"
+              width={750}
+              height={750}
+              className={styles.mapImage}
+              priority
+            />
+            {/* Jaipur Pin (The main landing map pin destination - editable here!) */}
+            <div 
+              ref={destRef} 
+              className={styles.destPoint}
+              style={{ left: "22%", top: "39%" }}
+            >
+              {/* Show the landed main pin inside the floating wrapper once flight is complete! */}
+              {isMounted && flightProgress >= 0.98 && (
+                <div className={`${styles.landedMainPin} ${styles.popIn}`}>
+                  <div className={styles.dockedPinInner}>
+                    <MainMapPin size={46} pinColor="#ff4f00" innerColor="#fffefb" />
+                    <span className={`${styles.pinLabel} ${styles.mainPinLabel}`}>Jaipur</span>
                   </div>
-
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Work Email</label>
-                    <input required type="email" className={styles.input} placeholder="jane@company.com" />
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Access Period</label>
-                    <select className={styles.input}>
-                      {billingCycle === "monthly" ? (
-                        <>
-                          <option>1 Month Residency</option>
-                          <option>3 Months Residency (5% off)</option>
-                          <option>12 Months Residency (12% off)</option>
-                        </>
-                      ) : (
-                        <>
-                          <option>Single Day Pass</option>
-                          <option>5-Day Bundle Pass</option>
-                          <option>Single Hourly Booking</option>
-                        </>
-                      )}
-                    </select>
-                  </div>
-
-                  <button type="submit" className={styles.modalSubmit}>
-                    Submit Request
-                  </button>
-                </form>
-              ) : (
-                <div className={styles.successWrapper}>
-                  <div className={styles.successIconWrapper}>
-                    <svg className={styles.successIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className={styles.successTitle}>Request Received!</h3>
-                  <p className={styles.successText}>
-                    We have reserved your draft slot. A community host will text or email you in a moment!
-                  </p>
                 </div>
               )}
             </div>
+
+            {/* Docked Network Pins - Individually written for granular editing */}
+            
+            {/* Chandigarh Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "33%", top: "34%", transitionDelay: "60ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Chandigarh</span>
+              </div>
+            </div>
+
+            {/* Ahmedabad Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "15%", top: "52%", transitionDelay: "120ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Ahmedabad</span>
+              </div>
+            </div>
+
+            {/* Mumbai Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "20%", top: "59%", transitionDelay: "180ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Mumbai</span>
+              </div>
+            </div>
+
+            {/* Goa Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "23%", top: "66%", transitionDelay: "240ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Goa</span>
+              </div>
+            </div>
+
+            {/* Indore Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "36%", top: "49%", transitionDelay: "300ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Indore</span>
+              </div>
+            </div>
+
+            {/* Bengaluru Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "32%", top: "70%", transitionDelay: "360ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Bengaluru</span>
+              </div>
+            </div>
+
+            {/* Chennai Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "40%", top: "78%", transitionDelay: "420ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Chennai</span>
+              </div>
+            </div>
+
+            {/* Delhi Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "34%", top: "39%", transitionDelay: "480ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Delhi-NCR</span>
+              </div>
+            </div>
+
+            {/* Guwahati Pin */}
+            <div 
+              className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
+              style={{ left: "85%", top: "40%", transitionDelay: "540ms" }}
+            >
+              <div className={styles.dockedPinInner}>
+                <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
+                <span className={styles.pinLabel}>Guwahati</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* The Flying Map Pin (Active overlay on page scroll) */}
+        {showFlyingPin && (
+          <div
+            className={styles.flyingPinContainer}
+            style={{
+              position: "absolute",
+              left: `${currentX}px`,
+              top: `${arcY}px`,
+              transform: "translate(-50%, -100%)", /* Anchor pin tip */
+              pointerEvents: "none",
+              zIndex: 100,
+            }}
+          >
+            <MainMapPin 
+              size={pinSize} 
+              pinColor="#ff4f00" 
+              innerColor="#fffefb"
+              className={flightProgress >= 0.98 ? styles.landedPinAnimation : ""}
+            />
           </div>
         )}
 
