@@ -28,10 +28,12 @@ export default function Hero() {
 
     return (
         <section className={styles.heroSection}>
+            {/* Background & Overlay covering the entire 100vh */}
+            <div className={styles.heroBackground}></div>
+            <div className={styles.heroOverlay}></div>
+
             {/* Top Hero Visual Area (80vh) */}
             <div className={styles.heroVisualArea}>
-                <div className={styles.heroBackground}></div>
-                <div className={styles.heroOverlay}></div>
                 <div className={styles.heroContainer}>
                     <div className={styles.contentWrapper}>
                         <h1 className={styles.mainTitle}>CoWorkIn</h1>

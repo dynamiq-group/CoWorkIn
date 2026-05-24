@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import styles from "./ShowroomSection.module.css";
+import styles from "./locations.module.css";
 import MapPin from "./MapPin";
 import MainMapPin from "./MainMapPin";
 
 // Each secondary map pin is defined explicitly in the JSX below so you can customize
 // sizes, coordinates, colors, and animations for each city individually.
 
-export default function ShowroomSection() {
+export default function Locations() {
   const containerRef = useRef(null);
   const sectionRef = useRef(null);
   const sourceRef = useRef(null);
@@ -21,14 +21,14 @@ export default function ShowroomSection() {
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     const updateCoords = () => {
       if (!sourceRef.current || !destRef.current || !containerRef.current) return;
-      
+
       const containerRect = containerRef.current.getBoundingClientRect();
       const sourceRect = sourceRef.current.getBoundingClientRect();
       const destRect = destRef.current.getBoundingClientRect();
-      
+
       setCoords({
         startX: sourceRect.left - containerRect.left + sourceRect.width / 2,
         startY: sourceRect.top - containerRect.top + sourceRect.height / 2,
@@ -49,10 +49,10 @@ export default function ShowroomSection() {
       // Start calculating scroll progress as the section enters the viewport
       const start = viewportHeight * 0.8;
       const end = viewportHeight * 0.1;
-      
+
       let progress = (start - sectionTop) / (start - end);
       progress = Math.max(0, Math.min(1, progress));
-      
+
       setScrollProgress(progress);
     };
 
@@ -87,8 +87,8 @@ export default function ShowroomSection() {
   // until the user scrolls further down (progress > 0.60). This matches the user's 
   // request to delay the flight further until the header is even higher up on the screen.
   const flightThreshold = 0.60;
-  
-  const flightProgress = scrollProgress > flightThreshold 
+
+  const flightProgress = scrollProgress > flightThreshold
     ? (scrollProgress - flightThreshold) / (1 - flightThreshold)
     : 0;
 
@@ -118,22 +118,22 @@ export default function ShowroomSection() {
   const staticPinWidthScale = staticPinOpacity;
 
   return (
-    <section ref={sectionRef} className={styles.section} id="showroom">
+    <section ref={sectionRef} className={styles.section} id="locations">
       <div ref={containerRef} className={styles.container} style={{ position: "relative" }}>
-        
+
         {/* Section Header */}
         <div className={styles.header}>
           <span className={styles.eyebrow}>CHOOSE YOUR ENVIRONMENT</span>
           <h2 className={styles.title}>A Workspace Network That Grows With You</h2>
           <p className={styles.subtitle}>
             Whether you're a freelancer, startup, or growing team, our coworking spaces are built to support the way you work. With flexible, inspiring environments designed for productivity and collaboration, we help businesses connect and scale effortlessly — now powering professionals across India in{" "}
-            <span 
-              className={styles.highlightCities} 
+            <span
+              className={styles.highlightCities}
               onMouseEnter={handleMouseEnter}
             >
               {/* Static target representing the start point - collapses smoothly to shrink the badge */}
-              <span 
-                ref={sourceRef} 
+              <span
+                ref={sourceRef}
                 className={styles.sourcePoint}
                 style={{
                   width: `${staticPinWidthScale * 22}px`,
@@ -146,9 +146,9 @@ export default function ShowroomSection() {
                   transition: "width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin-right 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.2s ease"
                 }}
               >
-                <MainMapPin 
-                  className={styles.pinIcon} 
-                  size={22} 
+                <MainMapPin
+                  className={styles.pinIcon}
+                  size={22}
                 />
               </span>
               30+ cities
@@ -159,7 +159,7 @@ export default function ShowroomSection() {
         {/* Massive Centered Animated Map of India below header */}
         <div className={styles.mapContainer}>
           <div className={styles.mapWrapper}>
-            <Image 
+            <Image
               src="/images/India_maps.png"
               alt="Workspace Network Map of India"
               width={750}
@@ -168,8 +168,8 @@ export default function ShowroomSection() {
               priority
             />
             {/* Jaipur Pin (The main landing map pin destination - editable here!) */}
-            <div 
-              ref={destRef} 
+            <div
+              ref={destRef}
               className={styles.destPoint}
               style={{ left: "22%", top: "39%" }}
             >
@@ -185,9 +185,9 @@ export default function ShowroomSection() {
             </div>
 
             {/* Docked Network Pins - Individually written for granular editing */}
-            
+
             {/* Chandigarh Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "33%", top: "34%", transitionDelay: "60ms" }}
             >
@@ -198,7 +198,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Ahmedabad Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "15%", top: "52%", transitionDelay: "120ms" }}
             >
@@ -209,7 +209,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Mumbai Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "20%", top: "59%", transitionDelay: "180ms" }}
             >
@@ -220,7 +220,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Goa Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "23%", top: "66%", transitionDelay: "240ms" }}
             >
@@ -231,7 +231,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Indore Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "36%", top: "49%", transitionDelay: "300ms" }}
             >
@@ -242,7 +242,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Bengaluru Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "32%", top: "70%", transitionDelay: "360ms" }}
             >
@@ -253,7 +253,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Chennai Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "40%", top: "78%", transitionDelay: "420ms" }}
             >
@@ -264,7 +264,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Delhi Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "34%", top: "39%", transitionDelay: "480ms" }}
             >
@@ -275,7 +275,7 @@ export default function ShowroomSection() {
             </div>
 
             {/* Guwahati Pin */}
-            <div 
+            <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
               style={{ left: "85%", top: "40%", transitionDelay: "540ms" }}
             >
@@ -300,9 +300,9 @@ export default function ShowroomSection() {
               zIndex: 100,
             }}
           >
-            <MainMapPin 
-              size={pinSize} 
-              pinColor="#ff4f00" 
+            <MainMapPin
+              size={pinSize}
+              pinColor="#ff4f00"
               innerColor="#fffefb"
               className={flightProgress >= 0.98 ? styles.landedPinAnimation : ""}
             />

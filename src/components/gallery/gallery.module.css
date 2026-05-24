@@ -1,0 +1,406 @@
+/* Gallery Section - Premium Animation Styles */
+
+.gallerySection {
+  background-color: #f8f4f0; /* Canvas Soft - cream-tinted soft surface */
+  padding: 100px 0;
+  width: 100%;
+  color: #201515; /* Ink */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Centered Header Styles */
+.header {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 64px auto;
+  position: relative;
+  z-index: 5;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #ff4f00; /* Zapier Orange */
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #201515; /* Ink */
+  margin-bottom: 20px;
+  letter-spacing: -0.8px;
+}
+
+.subtitle {
+  font-size: 18.5px;
+  line-height: 1.65;
+  color: #605d52; /* Body text color */
+  margin: 0;
+}
+
+/* Custom Interactive Cursor Follower */
+.customCursor {
+  position: fixed;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #ff4f00; /* Orange magnetic */
+  color: #fffefb; /* Canvas white text */
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+  box-shadow: 0 10px 25px rgba(255, 79, 0, 0.4);
+}
+
+.customCursorVisible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.customCursorHovered {
+  transform: translate(-50%, -50%) scale(1.2);
+  background-color: #201515; /* Switch color on card hover for contrast */
+  box-shadow: 0 10px 25px rgba(32, 21, 21, 0.4);
+}
+
+/* Marquee Grid and Track Elements */
+.marqueeContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 10px 0;
+  cursor: none; /* Hide default cursor to show custom cursor follower */
+  z-index: 2;
+}
+
+.marqueeRow {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
+  position: relative;
+  /* Will-change for parallax scroll translation */
+  will-change: transform;
+}
+
+/* Outer track that maps scroll offset parallax shifting */
+.scrollParallaxTrack {
+  display: flex;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* Infinite scroller wrapper */
+.marqueeTrack {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.trackLeft {
+  animation: scrollLeft 42s linear infinite;
+}
+
+.trackRight {
+  animation: scrollRight 42s linear infinite;
+}
+
+/* Pause animations when hovering over the row */
+.marqueeRow:hover .trackLeft,
+.marqueeRow:hover .trackRight {
+  animation-play-state: paused;
+}
+
+/* Marquee Infinite Keyframes */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Premium Card Design */
+.card {
+  position: relative;
+  width: 360px;
+  height: 260px;
+  border-radius: 16px;
+  background-color: #fffefb;
+  border: 1px solid rgba(32, 21, 21, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(32, 21, 21, 0.03);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.6s ease;
+  will-change: transform, box-shadow;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Alternating dynamic tilt custom properties */
+.card:hover {
+  transform: translateY(-8px) scale(1.03) rotate(var(--hover-tilt, 1deg));
+  box-shadow: 0 20px 45px rgba(255, 79, 0, 0.12), 0 8px 20px rgba(32, 21, 21, 0.06);
+  border-color: rgba(255, 79, 0, 0.25);
+}
+
+.cardImageWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .cardImage {
+  transform: scale(1.08);
+}
+
+/* Frosted Glassmorphism details overlay */
+.cardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  /* Light Warm Frosted Glass */
+  background: linear-gradient(135deg, rgba(255, 254, 251, 0.92), rgba(255, 254, 251, 0.82));
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border-top: 1px solid rgba(255, 254, 251, 0.4);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* Premium Slide-Up animation mechanism */
+  transform: translateY(calc(100% - 62px)); /* Only show room title & category header by default */
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.card:hover .cardOverlay {
+  transform: translateY(0); /* Reveal all space metrics and amenities on hover */
+}
+
+/* Header line within the card overlay */
+.overlayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardCategory {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff4f00; /* Saturated orange accent */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.cardTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #201515; /* Ink */
+}
+
+.arrowIcon {
+  color: #ff4f00;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .arrowIcon {
+  transform: translate(2px, -2px) rotate(45deg); /* Bounce and spin slightly on card hover */
+}
+
+/* Divider inside card overlay */
+.divider {
+  height: 1px;
+  background-color: rgba(32, 21, 21, 0.08);
+  width: 100%;
+}
+
+/* Detailed descriptive body text and amenities stats */
+.overlayContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+}
+
+.card:hover .overlayContent {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cardDescription {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #605d52; /* Body text color */
+  margin: 0;
+}
+
+.metricsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #201515;
+}
+
+.metricIcon {
+  color: #939084;
+}
+
+/* MOBILE AND TABLET RESPONSIVENESS */
+@media (max-width: 1024px) {
+  .gallerySection {
+    padding: 80px 0;
+  }
+  
+  .title {
+    font-size: 34px;
+  }
+  
+  .card {
+    width: 310px;
+    height: 240px;
+  }
+
+  .cardOverlay {
+    transform: translateY(calc(100% - 58px));
+  }
+}
+
+@media (max-width: 767px) {
+  .gallerySection {
+    padding: 60px 0;
+  }
+  
+  .title {
+    font-size: 28px;
+    letter-spacing: -0.5px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  /* Disable custom cursor on touch devices */
+  .customCursor {
+    display: none !important;
+  }
+  
+  .marqueeContainer {
+    cursor: auto;
+    gap: 16px;
+    padding: 0;
+  }
+  
+  /* Degrade marquee animations and show touch scroll horizontal rows instead */
+  .marqueeRow {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 24px;
+    margin: 0 -24px;
+    scrollbar-width: none; /* Hide scrollbars for a clean native app look */
+  }
+  
+  .marqueeRow::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollParallaxTrack {
+    transform: none !important; /* Disable parallax scrolling on mobile */
+  }
+  
+  .marqueeTrack {
+    animation: none !important; /* Disable continuous marquee sliding */
+    gap: 16px;
+  }
+  
+  /* Hide the duplicated cards track on mobile to prevent excessive scrolling */
+  .marqueeTrack > div:nth-child(n+6) {
+    display: none !important;
+  }
+  
+  .card {
+    width: 280px;
+    height: 220px;
+    scroll-snap-align: start;
+    border-radius: 12px;
+  }
+  
+  .cardOverlay {
+    /* Reveal card details by default on touch screens, or slide it up less dramatically */
+    transform: translateY(calc(100% - 54px));
+  }
+  
+  /* In mobile, allow hover status on active touch focus */
+  .card:active {
+    transform: scale(0.98);
+  }
+}

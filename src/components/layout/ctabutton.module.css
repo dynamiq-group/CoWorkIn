@@ -1,0 +1,21 @@
+.ctaButton {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #ff551f; /* Premium corporate orange */
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 85, 31, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(255, 85, 31, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ctaButton:hover {
+  background-color: #e04413; /* Deep orange hover */
+  border-color: rgba(255, 85, 31, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 85, 31, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
