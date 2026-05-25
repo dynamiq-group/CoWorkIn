@@ -1,7 +1,7 @@
 .whatsappFloat {
   position: fixed;
   bottom: 32px;
-  left: 32px;
+  right: 32px;
   width: 60px;
   height: 60px;
   background-color: #25d366;
@@ -68,7 +68,7 @@
 @media (max-width: 767px) {
   .whatsappFloat {
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     width: 50px;
     height: 50px;
   }
