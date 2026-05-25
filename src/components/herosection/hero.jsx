@@ -1,9 +1,45 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./hero.module.css";
 
 export default function Hero() {
+    const sectionRef = useRef(null);
+
+    // Track page scroll to set high-performance CSS custom variable and scroll direction
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+        let isScrollingDown = null; // Initialize to null to guarantee first scroll updates the direction state
+
+        const handleScroll = () => {
+            if (!sectionRef.current) return;
+            const scrollY = window.scrollY;
+            sectionRef.current.style.setProperty("--scroll-y", `${scrollY}`);
+
+            // Detect scroll direction changes only when scroll position actually changes
+            if (scrollY !== lastScrollY) {
+                const goingDown = scrollY > lastScrollY;
+                if (goingDown !== isScrollingDown) {
+                    isScrollingDown = goingDown;
+                    sectionRef.current.setAttribute("data-scroll-dir", goingDown ? "down" : "up");
+                }
+                lastScrollY = scrollY;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        
+        // Setup initial default marquee scroll direction
+        if (sectionRef.current) {
+            sectionRef.current.setAttribute("data-scroll-dir", "up");
+        }
+        handleScroll();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     // Split the 11 client logos into two distinct rows
     const row1Logos = [
         "/clients/Bajaj_Finserv_Logo.svg",
@@ -34,7 +70,7 @@ export default function Hero() {
     const doubledRow2 = [...row2Logos, ...row2Logos];
 
     return (
-        <section className={styles.heroSection}>
+        <section ref={sectionRef} className={styles.heroSection}>
             {/* Background & Overlay covering the entire 100vh */}
             <div className={styles.heroBackground}></div>
             <div className={styles.heroOverlay}></div>
@@ -54,23 +90,33 @@ export default function Hero() {
 
                 {/* Row 1: Scrolling Left */}
                 <div className={styles.logosTrackContainer}>
-                    <div className={`${styles.logosTrack} ${styles.scrollLeft}`}>
-                        {doubledRow1.map((logo, index) => (
-                            <div key={`row1-${index}`} className={styles.logoItem}>
-                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
-                            </div>
-                        ))}
+                    <div 
+                        className={styles.scrollWrapper}
+                        style={{ transform: "translateX(calc(var(--scroll-y, 0) * -0.3px))" }}
+                    >
+                        <div className={`${styles.logosTrack} ${styles.scrollLeft}`}>
+                            {doubledRow1.map((logo, index) => (
+                                <div key={`row1-${index}`} className={styles.logoItem}>
+                                    <img src={logo} alt="Client Logo" className={styles.logoImage} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* Row 2: Scrolling Right */}
                 <div className={styles.logosTrackContainer}>
-                    <div className={`${styles.logosTrack} ${styles.scrollRight}`}>
-                        {doubledRow2.map((logo, index) => (
-                            <div key={`row2-${index}`} className={styles.logoItem}>
-                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
-                            </div>
-                        ))}
+                    <div 
+                        className={styles.scrollWrapper}
+                        style={{ transform: "translateX(calc(var(--scroll-y, 0) * 0.3px))" }}
+                    >
+                        <div className={`${styles.logosTrack} ${styles.scrollRight}`}>
+                            {doubledRow2.map((logo, index) => (
+                                <div key={`row2-${index}`} className={styles.logoItem}>
+                                    <img src={logo} alt="Client Logo" className={styles.logoImage} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

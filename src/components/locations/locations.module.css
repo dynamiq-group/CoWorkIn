@@ -1,7 +1,7 @@
 /* CoWorkIn Showroom Section - Zapier Inspired Theme Styles */
 
 .section {
-  background-color: #fffefb; /* Canvas - warm off-white */
+  background-color: transparent; /* Canvas - transparent to show grainy body background */
   padding: 100px 0;
   width: 100%;
   color: #201515; /* Ink - deep warm coffee */
