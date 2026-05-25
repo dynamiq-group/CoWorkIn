@@ -9,9 +9,12 @@ export default function Hero() {
         "/clients/Bajaj_Finserv_Logo.svg",
         "/clients/Flipkart_logo.svg",
         "/clients/Google_Pay_Logo.svg",
+        "/clients/L&T.svg",
+        "/clients/royal_enfield.svg",
         "/clients/IndiaMART_logo.svg",
         "/clients/Schneider_Electric.svg",
-        "/clients/Zomato_Logo.svg"
+        "/clients/Zomato_Logo.svg",
+        "/clients/Bosch-logo.svg"
     ];
 
     const row2Logos = [
@@ -19,7 +22,11 @@ export default function Hero() {
         "/clients/credresolve.svg",
         "/clients/hyperface.svg",
         "/clients/samunnati.svg",
-        "/clients/utkarsh_classes.svg"
+        "/clients/utkarsh_classes.svg",
+        "/clients/olx_autos.svg",
+        "/clients/toppr.svg",
+        "/clients/deloitte.svg",
+        "/clients/blinkit.svg"
     ];
 
     // To make it infinite scrolling seamless, we double each list
