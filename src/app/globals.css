@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap');
 
 :root {
-  --background: #fffefb; /* Canvas - warm off-white */
-  --foreground: #201515; /* Ink - deep coffee black */
+  --background: #fffefb;
+  /* Canvas - warm off-white */
+  --foreground: #201515;
+  /* Ink - deep coffee black */
   --canvas-soft: #f8f4f0;
   --primary: #ff4f00;
   --border: #c5c0b1;

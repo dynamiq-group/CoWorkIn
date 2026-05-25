@@ -1,25 +1,27 @@
 .navBar {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 24px;
   left: 0;
   right: 0;
-  height: 84px;
+  height: auto;
   background-color: transparent;
   z-index: 100;
   display: flex;
   align-items: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), top 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+  will-change: transform;
+  /* Promotes element to its own GPU composite layer to ensure absolute jank-free 60+fps rendering */
 }
 
 /* Scrolled state for sticky header */
 .navBar.scrolled {
-  position: fixed;
-  height: 72px;
-  background-color: rgba(20, 15, 15, 0.85); /* Sleek dark glassmorphism */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+  top: 12px;
+}
+
+/* Smart hide-on-scroll down state */
+.navBar.hidden {
+  transform: translateY(-100px);
 }
 
 .navContainer {
@@ -30,40 +32,60 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  /* Establish relative positioning for absolute centering of navLinks */
 }
 
-/* Logo and brand name styles */
+/* Logo Link Wrapper (Glass morph background removed) */
 .logoWrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #ffffff;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logoWrapper:hover {
-  opacity: 0.9;
+  background-color: transparent;
+  transform: translateY(-1px);
 }
 
-.logoIcon {
-  width: 24px;
-  height: 24px;
-  color: #ffffff;
+.logoImage {
+  height: 42px;
+  /* Sleek, prominent branding height */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.logoText {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  color: #ffffff;
+.scrolled .logoImage {
+  height: 34px;
+  /* Proportionately adjusted compact height on scroll */
 }
 
-/* Middle Navigation Links */
+/* Middle Navigation Links Glass Morph Capsule */
 .navLinks {
   display: none;
-  gap: 36px;
+  gap: 32px;
   align-items: center;
+  background-color: rgba(32, 25, 25, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 12px 36px;
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Perfectly center options globally inside navbar, independent of logo size */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 @media (min-width: 768px) {
@@ -72,40 +94,27 @@
   }
 }
 
+.navLinks:hover {
+  background-color: rgba(32, 25, 25, 0.72);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px -4px rgba(0, 0, 0, 0.35);
+}
+
 .navLink {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  transition: color 0.2s ease;
-  position: relative;
-  padding: 6px 0;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  padding: 4px 6px;
 }
 
 .navLink:hover {
   color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
 }
 
-/* Subtle under-line hover micro-animation */
-.navLink::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #ff551f; /* Coral Orange */
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
-}
-
-.navLink:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* Contact Us Button on Right */
+/* Contact Us Glass Morph Capsule on Right */
 .navActions {
   display: none;
   align-items: center;
@@ -117,43 +126,37 @@
   }
 }
 
-.ctaButton {
-  font-size: 14.5px;
-  font-weight: 600;
-  background-color: #ff551f; /* Coral/orange match from the image */
-  color: #ffffff;
-  padding: 10px 24px;
-  border-radius: 40px; /* Pill shaped */
-  border: 1px solid transparent;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 14px rgba(255, 85, 31, 0.25);
-  text-decoration: none;
-}
 
-.ctaButton:hover {
-  background-color: #e04413;
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px rgba(255, 85, 31, 0.4);
-}
-
-/* Mobile Hamburger Menu icon */
+/* Mobile Hamburger Menu Glass Capsule */
 .hamburger {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: none;
-  border: none;
+  width: 22px;
+  height: 14px;
+  background-color: rgba(32, 25, 25, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
   cursor: pointer;
   z-index: 110;
-  padding: 0;
+  padding: 14px;
+  box-sizing: content-box;
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 768px) {
   .hamburger {
     display: none;
   }
+}
+
+.hamburger:hover {
+  background-color: rgba(32, 25, 25, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
 }
 
 .bar {
@@ -166,7 +169,7 @@
 
 /* Hamburger Transformations */
 .hamburgerActive .bar:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
 }
 
 .hamburgerActive .bar:nth-child(2) {
@@ -174,7 +177,7 @@
 }
 
 .hamburgerActive .bar:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 /* Mobile Dropdown Drawer */
@@ -184,12 +187,14 @@
   right: -100%;
   width: 100%;
   height: 100vh;
-  background-color: #140f0f; /* Dark background matching the theme */
+  background-color: rgba(20, 15, 15, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   z-index: 105;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobileMenuOpen {

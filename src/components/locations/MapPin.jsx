@@ -6,11 +6,11 @@ import React from 'react';
  * (12px, 22px for the pin/shadow; 12px, 10px for the inner circle) to support smooth, 
  * realistic bounce, squash-and-stretch, and inner-pulse animations.
  */
-const MapPin = ({ 
-  size = 22, 
-  className = "", 
-  style = {}, 
-  pinColor = "currentColor", 
+const MapPin = ({
+  size = 22,
+  className = "",
+  style = {},
+  pinColor = "currentColor",
   innerColor = "#ff4f00" /* Default matches the Zapier orange badge background */
 }) => {
   return (
@@ -20,20 +20,20 @@ const MapPin = ({
       viewBox="0 0 24 24"
       fill="none"
       className={className}
-      style={{ 
-        display: 'inline-block', 
-        verticalAlign: 'middle', 
+      style={{
+        display: 'inline-block',
+        verticalAlign: 'middle',
         overflow: 'visible',
-        ...style 
+        ...style
       }}
     >
       {/* Pin Shadow/Pulse Base */}
-      <ellipse 
-        cx="12" 
-        cy="22" 
-        rx="5" 
-        ry="1.5" 
-        fill={pinColor} 
+      <ellipse
+        cx="12"
+        cy="22"
+        rx="5"
+        ry="1.5"
+        fill={pinColor}
         opacity="0.3"
         className="pin-shadow"
         style={{
@@ -41,9 +41,9 @@ const MapPin = ({
           transition: 'transform 0.3s ease, opacity 0.3s ease',
         }}
       />
-      
+
       {/* Main Pin Geometry */}
-      <g 
+      <g
         className="pin-geom"
         style={{
           transformOrigin: '12px 22px',
@@ -55,7 +55,7 @@ const MapPin = ({
           d="M12 2C7.58 2 4 5.58 4 10c0 4.5 5 10.5 8 12 3-1.5 8-7.5 8-12 0-4.42-3.58-8-8-8z"
           fill={pinColor}
         />
-        
+
         {/* Pin Inner Circle (Large contrasting core) */}
         <circle
           cx="12"

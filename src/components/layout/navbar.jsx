@@ -1,51 +1,74 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import styles from "./navbar.module.css";
+import CtaButton from "./ctabutton";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      const currentScrollY = window.scrollY;
+
+      // Scrolled state for sticky header backdrop styling
+      if (currentScrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
+
+      // Smart Hide/Show behavior
+      if (currentScrollY < 80) {
+        // Always show navbar at the absolute top of the page
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down -> hide navbar (only if mobile menu is not active)
+        if (!mobileMenuOpen) {
+          setIsVisible(false);
+        }
+      } else {
+        // Scrolling up -> drop down navbar
+        setIsVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   return (
-    <header className={`${styles.navBar} ${isScrolled ? styles.scrolled : ""}`}>
+    <header className={`${styles.navBar} ${isScrolled ? styles.scrolled : ""} ${!isVisible ? styles.hidden : ""}`}>
       <div className={styles.navContainer}>
         {/* Brand Logo & Icon */}
         <a href="#" className={styles.logoWrapper}>
-          <svg
-            className={styles.logoIcon}
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Elegant shield/crown geometric shape resembling the reference image */}
-            <path d="M12 3L3.5 8V16L12 21L20.5 16V8L12 3ZM12 5.5L18.5 9.3V14.7L12 18.5L5.5 14.7V9.3L12 5.5ZM12 8.5C10.6 8.5 9.5 9.6 9.5 11C9.5 12.4 10.6 13.5 12 13.5C13.4 13.5 14.5 12.4 14.5 11C14.5 9.6 13.4 8.5 12 8.5Z" />
-          </svg>
-          <span className={styles.logoText}>CoWorkIn</span>
+          <Image
+            src="/images/CoWorkIn.png"
+            alt="CoWorkIn Logo"
+            width={200}
+            height={60}
+            className={styles.logoImage}
+            priority
+          />
         </a>
 
         {/* Desktop Navigation Links */}
         <nav className={styles.navLinks}>
-          <a href="#about" className={styles.navLink}>
-            About
-          </a>
-          <a href="#showroom" className={styles.navLink}>
-            Spaces
-          </a>
           <a href="#locations" className={styles.navLink}>
             Locations
+          </a>
+          <a href="#gallery" className={styles.navLink}>
+            Gallery
+          </a>
+          <a href="#about" className={styles.navLink}>
+            About
           </a>
           <a href="#contact" className={styles.navLink}>
             Contact
@@ -54,9 +77,7 @@ export default function Navbar() {
 
         {/* Desktop CTA Button */}
         <div className={styles.navActions}>
-          <a href="#contact" className={styles.ctaButton}>
-            Book Tour
-          </a>
+          <CtaButton />
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -78,25 +99,25 @@ export default function Navbar() {
       >
         <nav className={styles.mobileNavLinks}>
           <a
-            href="#about"
-            className={styles.mobileNavLink}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About
-          </a>
-          <a
-            href="#showroom"
-            className={styles.mobileNavLink}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Spaces
-          </a>
-          <a
             href="#locations"
             className={styles.mobileNavLink}
             onClick={() => setMobileMenuOpen(false)}
           >
             Locations
+          </a>
+          <a
+            href="#gallery"
+            className={styles.mobileNavLink}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Gallery
+          </a>
+          <a
+            href="#about"
+            className={styles.mobileNavLink}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            About
           </a>
           <a
             href="#contact"
