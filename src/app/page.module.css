@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #fffefb; /* Canvas */
+  background-color: transparent; /* Canvas - transparent to show grainy body background */
 }
 
 /* Sticky Header Nav Bar */

@@ -123,6 +123,14 @@
   -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
+/* Intermediate wrapper to apply scroll parallax shifts with buttery ease */
+.scrollWrapper {
+  display: flex;
+  width: max-content;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
 .logosTrack {
   display: flex;
   width: max-content;
@@ -142,7 +150,7 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.08),
     0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -152,7 +160,7 @@
 .logoItem:hover {
   background: rgba(255, 255, 255, 0.07);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.15),
     0 8px 24px rgba(0, 0, 0, 0.25);
   transform: translateY(-2px);
@@ -175,18 +183,28 @@
   transform: scale(1.04);
 }
 
-/* Left sliding row */
+/* Left sliding row (seamless looping marquee) */
 .scrollLeft {
-  animation: scrollLeftAnim 32s linear infinite;
+  animation: scrollLeft linear infinite;
+  will-change: transform;
 }
 
-/* Right sliding row */
+/* Right sliding row (seamless looping marquee) */
 .scrollRight {
-  animation: scrollRightAnim 32s linear infinite;
+  animation: scrollRight linear infinite;
+  will-change: transform;
 }
 
-/* Animation keyframes */
-@keyframes scrollLeftAnim {
+/* Dynamic scroll direction reversal matching tomcardermedia behavior */
+.heroSection[data-scroll-dir="down"] .scrollLeft {
+  animation-direction: reverse;
+}
+
+.heroSection[data-scroll-dir="down"] .scrollRight {
+  animation-direction: reverse;
+}
+
+@keyframes scrollLeft {
   0% {
     transform: translateX(0);
   }
@@ -196,7 +214,7 @@
   }
 }
 
-@keyframes scrollRightAnim {
+@keyframes scrollRight {
   0% {
     transform: translateX(-50%);
   }
@@ -248,13 +266,5 @@
 
   .logosTrack {
     gap: 20px;
-  }
-
-  .scrollLeft {
-    animation-duration: 22s;
-  }
-
-  .scrollRight {
-    animation-duration: 22s;
   }
 }
