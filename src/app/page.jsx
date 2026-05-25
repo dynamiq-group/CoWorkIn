@@ -4,6 +4,7 @@ import Hero from "../components/herosection/hero";
 import Locations from "../components/locations/locations";
 import Gallery from "../components/gallery/gallery";
 import FAQSection from "../components/faqs/faq";
+import TestimonialsSection from "../components/testimonials/testimonials";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
         <Hero />
         <Locations />
         <Gallery />
+        <TestimonialsSection />
         <FAQSection />
       </main>
 
