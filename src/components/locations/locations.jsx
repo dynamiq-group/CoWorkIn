@@ -20,7 +20,9 @@ export default function Locations() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    const mountTimer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
 
     const updateCoords = () => {
       if (!sourceRef.current || !destRef.current || !containerRef.current) return;
@@ -61,6 +63,7 @@ export default function Locations() {
     window.addEventListener("load", updateCoords);
 
     return () => {
+      clearTimeout(mountTimer);
       clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateCoords);
@@ -126,7 +129,7 @@ export default function Locations() {
           <span className={styles.eyebrow}>CHOOSE YOUR ENVIRONMENT</span>
           <h2 className={styles.title}>A Workspace Network That Grows With You</h2>
           <p className={styles.subtitle}>
-            Whether you're a freelancer, startup, or growing team, our coworking spaces are built to support the way you work. With flexible, inspiring environments designed for productivity and collaboration, we help businesses connect and scale effortlessly — now powering professionals across India in{" "}
+            Whether you&apos;re a freelancer, startup, or growing team, our coworking spaces are built to support the way you work. With flexible, inspiring environments designed for productivity and collaboration, we help businesses connect and scale effortlessly — now powering professionals across India in{" "}
             <span
               className={styles.highlightCities}
               onMouseEnter={handleMouseEnter}

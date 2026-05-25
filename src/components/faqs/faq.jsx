@@ -46,7 +46,7 @@ export default function FAQSection() {
   return (
     <section className={styles.faqSection}>
       <div className={styles.faqContainer}>
-        <h2 className={styles.faqTitle}>FAQ'S</h2>
+        <h2 className={styles.faqTitle}>FAQ&apos;S</h2>
         <div className={styles.faqList}>
           {faqData.map((item, index) => {
             const isOpen = activeIndex === index;

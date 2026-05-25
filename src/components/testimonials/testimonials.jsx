@@ -175,7 +175,7 @@ export function ReviewCard({ review }) {
           {reviewerLocation && <span className={styles.cardLoc}>{reviewerLocation}</span>}
         </div>
       </div>
-      <p className={styles.cardText}>"{reviewText}"</p>
+      <p className={styles.cardText}>&ldquo;{reviewText}&rdquo;</p>
       <div className={styles.cardDivider}></div>
       <div className={styles.cardFooter}>
         <span className={styles.roleBadge}>{roleText}</span>
