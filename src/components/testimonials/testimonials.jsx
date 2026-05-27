@@ -219,7 +219,7 @@ export default function PatientReviews({
   const reviews3Col = splitArray(reviewsToRender, 3);
 
   return (
-    <section ref={sectionRef} className={styles.testimonialsSection} id="testimonials">
+    <section ref={sectionRef} className={styles.testimonialsSection} id="reviews">
       <div className={styles.container}>
         
         {/* Header Section */}

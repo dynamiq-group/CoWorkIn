@@ -27,7 +27,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/hero_bg.png');
+  background-image: url('/images/hero_bg.webp');
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -123,11 +123,9 @@
   -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
-/* Intermediate wrapper to apply scroll parallax shifts with buttery ease */
 .scrollWrapper {
   display: flex;
   width: max-content;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -183,16 +181,32 @@
   transform: scale(1.04);
 }
 
-/* Left sliding row (seamless looping marquee) */
-.scrollLeft {
-  animation: scrollLeft linear infinite;
+.scrollLeft,
+.scrollRight {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
   will-change: transform;
 }
 
-/* Right sliding row (seamless looping marquee) */
+.scrollLeft {
+  animation-name: scrollLeft;
+  animation-duration: 75s;
+}
+
 .scrollRight {
-  animation: scrollRight linear infinite;
-  will-change: transform;
+  animation-name: scrollRight;
+  animation-duration: 75s;
+}
+
+[data-scroll-dir="down"] .scrollLeft {
+  animation-play-state: running;
+}
+
+[data-scroll-dir="down"] .scrollRight {
+  animation-play-state: running;
 }
 
 /* Dynamic scroll direction reversal matching tomcardermedia behavior */
@@ -204,6 +218,7 @@
   animation-direction: reverse;
 }
 
+/* Symmetrical looping keyframes */
 @keyframes scrollLeft {
   0% {
     transform: translateX(0);

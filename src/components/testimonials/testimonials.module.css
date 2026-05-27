@@ -1,7 +1,7 @@
-/* Main Testimonials Section Wrapper */
 .testimonialsSection {
-  background-color: var(--canvas-soft, #f8f4f0);
-  padding: 96px 24px;
+  background-color: transparent;
+  /* Canvas Soft changed to transparent to show grainy body background seamlessly */
+  padding: 70px 24px;
   position: relative;
   overflow: hidden;
 }
@@ -29,7 +29,8 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: var(--primary, #ff4f00); /* Zapier Orange */
+  color: var(--primary, #ff4f00);
+  /* Zapier Orange */
   text-transform: uppercase;
   margin-top: 4px;
   margin-bottom: 12px;
@@ -100,7 +101,8 @@
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 18px;
   line-height: 1.6;
-  color: #605d52; /* Warm body ink-gray */
+  color: #605d52;
+  /* Warm body ink-gray */
   max-width: 640px;
   margin: 0;
 }
@@ -127,11 +129,13 @@
   .mobileOnly {
     display: none;
   }
+
   .tabletOnly {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
+
   .desktopOnly {
     display: none;
   }
@@ -141,9 +145,11 @@
   .mobileOnly {
     display: none;
   }
+
   .tabletOnly {
     display: none;
   }
+
   .desktopOnly {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -215,6 +221,7 @@
   0% {
     transform: translateY(0);
   }
+
   100% {
     transform: translateY(-33.3333%);
   }
@@ -223,7 +230,8 @@
 /* Individual Review Card styling */
 .reviewCard {
   background-color: #ffffff;
-  border-radius: 24px; /* rounded-3xl */
+  border-radius: 24px;
+  /* rounded-3xl */
   padding: 32px;
   margin-bottom: 24px;
   border: 1px solid rgba(197, 192, 177, 0.35);
@@ -354,7 +362,8 @@
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 15px;
   line-height: 1.65;
-  color: #605d52; /* body text */
+  color: #605d52;
+  /* body text */
   margin: 0;
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -388,7 +397,8 @@
 .googleCard {
   position: fixed;
   bottom: 24px;
-  left: -320px; /* Initially off-canvas */
+  left: -320px;
+  /* Initially off-canvas */
   z-index: 999;
   opacity: 0;
   pointer-events: none;
@@ -489,4 +499,16 @@
   color: #939084;
   font-weight: 600;
   margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .testimonialsSection {
+    padding: 20px 24px 80px 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .testimonialsSection {
+    padding: 15px 16px 60px 16px;
+  }
 }

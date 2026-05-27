@@ -67,11 +67,11 @@ export default function Navbar() {
           <a href="#gallery" className={styles.navLink}>
             Gallery
           </a>
+          <a href="#reviews" className={styles.navLink}>
+            Reviews
+          </a>
           <a href="#about" className={styles.navLink}>
             About
-          </a>
-          <a href="#contact" className={styles.navLink}>
-            Contact
           </a>
         </nav>
 
@@ -113,18 +113,18 @@ export default function Navbar() {
             Gallery
           </a>
           <a
-            href="#about"
+            href="#reviews"
             className={styles.mobileNavLink}
             onClick={() => setMobileMenuOpen(false)}
           >
-            About
+            Reviews
           </a>
           <a
-            href="#contact"
+            href="#about"
             className={styles.mobileCtaButton}
             onClick={() => setMobileMenuOpen(false)}
           >
-            Contact
+            About
           </a>
         </nav>
       </div>
