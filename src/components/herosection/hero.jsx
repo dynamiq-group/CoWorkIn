@@ -50,7 +50,7 @@ export default function Hero() {
             <div className={styles.heroVisualArea}>
                 <div className={styles.heroContainer}>
                     <div className={styles.contentWrapper}>
-                        <h1 className={styles.mainTitle}>CoWork'In</h1>
+                        <h1 className={styles.mainTitle}>CoWork&apos;In</h1>
                     </div>
                 </div>
             </div>
