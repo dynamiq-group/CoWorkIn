@@ -18,6 +18,16 @@ export default function WhatsappButton({
       className={styles.whatsappFloat}
       aria-label="Chat on WhatsApp"
     >
+      {/* Tooltip */}
+      <span className={styles.tooltip}>
+        Chat with us
+        {/* Arrow pointing right */}
+        <span className={styles.tooltipArrow}></span>
+      </span>
+
+      {/* Breathing Red Dot Badge */}
+      <span className={styles.notificationBadge}></span>
+
       <svg
         className={styles.whatsappIcon}
         viewBox="0 0 24 24"

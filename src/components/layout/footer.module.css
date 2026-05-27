@@ -1,7 +1,8 @@
 /* Premium Footer Stylesheet */
 
 .footerContainer {
-  background-color: var(--canvas-soft, #f8f4f0);
+  background-color: transparent;
+  /* Canvas Soft changed to transparent to show grainy body background seamlessly */
   padding: 96px 48px 0 48px;
   width: 100%;
   display: flex;
@@ -32,7 +33,8 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 19px;
   line-height: 1.45;
-  color: var(--foreground, #201515); /* Ink */
+  color: var(--foreground, #201515);
+  /* Ink */
   font-weight: 500;
   margin: 0;
   letter-spacing: -0.2px;
@@ -65,8 +67,10 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: var(--primary, #ff4f00); /* Orange CTA */
-  color: #fffefb; /* Canvas white arrow */
+  background-color: var(--primary, #ff4f00);
+  /* Orange CTA */
+  color: #fffefb;
+  /* Canvas white arrow */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +92,8 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #939084; /* Muted ink neutral */
+  color: #939084;
+  /* Muted ink neutral */
   margin-bottom: 28px;
   text-transform: uppercase;
 }
@@ -154,7 +159,8 @@
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 15px;
   line-height: 1.65;
-  color: #605d52; /* body-gray */
+  color: #605d52;
+  /* body-gray */
   margin: 0;
 }
 
@@ -217,9 +223,17 @@
 }
 
 @keyframes pulseWatermark {
-  0% { opacity: 0.5; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
 }
 
 /* Bracket corners styling details */
@@ -327,12 +341,15 @@
   font-weight: 900;
   color: var(--foreground, #201515);
   text-align: center;
-  line-height: 0.9; /* Increased from 0.75 to fully encompass bottom letter-curves without clipping */
+  line-height: 0.9;
+  /* Increased from 0.75 to fully encompass bottom letter-curves without clipping */
   letter-spacing: -0.06em;
   text-transform: uppercase;
   width: 100%;
-  margin-bottom: -20px; /* Pulls the bottom boundary of the footer up to tightly hug the letter curves */
-  transform: translateY(-4px); /* Clean manual vertical adjustment offset */
+  margin-bottom: -20px;
+  /* Pulls the bottom boundary of the footer up to tightly hug the letter curves */
+  transform: translateY(-4px);
+  /* Clean manual vertical adjustment offset */
   user-select: none;
   pointer-events: none;
   display: block;

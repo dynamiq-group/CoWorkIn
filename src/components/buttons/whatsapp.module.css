@@ -54,10 +54,12 @@
     transform: scale(0.95);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.15);
     opacity: 0;
   }
+
   100% {
     transform: scale(0.95);
     opacity: 0;
@@ -72,9 +74,97 @@
     width: 50px;
     height: 50px;
   }
-  
+
   .whatsappIcon {
     width: 24px;
     height: 24px;
+  }
+}
+
+/* Tooltip styles translating the requested Tailwind styles */
+.tooltip {
+  position: absolute;
+  right: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  background-color: #f0fdf4;
+  /* Tailwind bg-green-50 */
+  color: #201515;
+  /* Matching CoWorkIn deep coffee ink color */
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: none;
+  pointer-events: none;
+}
+
+.tooltipArrow {
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  transform: translateY(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background-color: #f0fdf4;
+  /* Match tooltip background color */
+}
+
+/* Parent hover triggers child tooltip transition */
+.whatsappFloat:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Show tooltip on medium screens and up */
+@media (min-width: 768px) {
+  .tooltip {
+    display: block;
+  }
+}
+
+/* Breathing Red Dot Notification Badge */
+.notificationBadge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: #ff3b30;
+  /* Vivid notification red */
+  border-radius: 50%;
+  box-shadow: 0 0 0 rgba(255, 59, 48, 0.7);
+  animation: badgeBreathe 2s infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@keyframes badgeBreathe {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 59, 48, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+}
+
+/* Slightly scale down badge on smaller mobile screens */
+@media (max-width: 767px) {
+  .notificationBadge {
+    top: 1px;
+    right: 1px;
+    width: 12px;
+    height: 12px;
   }
 }
