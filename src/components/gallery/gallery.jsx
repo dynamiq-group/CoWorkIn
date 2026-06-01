@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./gallery.module.css";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Premium workspace data configured with high-fidelity detail cards
 const row1Spaces = [
@@ -112,52 +118,105 @@ const row2Spaces = [
 ];
 
 export default function Gallery() {
-  const [cursorVisible, setCursorVisible] = useState(false);
-  const [cursorHovered, setCursorHovered] = useState(false);
-
   const sectionRef = useRef(null);
   const cursorRef = useRef(null);
 
-  // Buttery-smooth performance cursor tracker bypassing React state renders
-  const handleMouseMove = (e) => {
+  // Positional quickTo hooks for mouse movement smoothing (inertia)
+  const xTo = useRef(null);
+  const yTo = useRef(null);
+
+  useEffect(() => {
+    // Setup inertia-based cursor positioning targets
     if (cursorRef.current) {
-      cursorRef.current.style.left = `${e.clientX}px`;
-      cursorRef.current.style.top = `${e.clientY}px`;
+      xTo.current = gsap.quickTo(cursorRef.current, "x", { duration: 0.35, ease: "power3.out" });
+      yTo.current = gsap.quickTo(cursorRef.current, "y", { duration: 0.35, ease: "power3.out" });
+    }
+
+    // Scroll linkage setup via GSAP ScrollTrigger
+    const ctx = gsap.context(() => {
+      const rows = sectionRef.current.querySelectorAll(`.${styles.scrollParallaxTrack}`);
+      
+      if (rows.length >= 2) {
+        // Row 1 drifts left
+        gsap.fromTo(rows[0], 
+          { x: 120 },
+          {
+            x: -120,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5, // dynamic lag
+            }
+          }
+        );
+
+        // Row 2 drifts right
+        gsap.fromTo(rows[1], 
+          { x: -120 },
+          {
+            x: 120,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5,
+            }
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const handleMouseMove = (e) => {
+    if (xTo.current && yTo.current) {
+      xTo.current(e.clientX);
+      yTo.current(e.clientY);
     }
   };
 
   const handleMouseEnterSection = () => {
-    setCursorVisible(true);
+    gsap.to(cursorRef.current, {
+      scale: 1,
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: "auto"
+    });
   };
 
   const handleMouseLeaveSection = () => {
-    setCursorVisible(false);
-    setCursorHovered(false);
+    gsap.to(cursorRef.current, {
+      scale: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: "auto"
+    });
   };
 
   const handleMouseEnterCard = () => {
-    setCursorHovered(true);
+    gsap.to(cursorRef.current, {
+      scale: 1.2,
+      backgroundColor: "#201515",
+      boxShadow: "0 10px 25px rgba(32, 21, 21, 0.4)",
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: "auto"
+    });
   };
 
   const handleMouseLeaveCard = () => {
-    setCursorHovered(false);
+    gsap.to(cursorRef.current, {
+      scale: 1,
+      backgroundColor: "#ff4f00",
+      boxShadow: "0 10px 25px rgba(255, 79, 0, 0.4)",
+      duration: 0.3,
+      overwrite: "auto"
+    });
   };
-
-  // Scroll linkage listener for smooth scroll parallax row movements
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const scrollOffset = rect.top; // Viewport top delta
-      sectionRef.current.style.setProperty("--scroll-offset", `${scrollOffset}`);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    // Run once initially to set starting custom scroll variable offset
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <section 
@@ -171,9 +230,11 @@ export default function Gallery() {
       {/* Premium Magnetic Cursor Follower */}
       <div 
         ref={cursorRef}
-        className={`${styles.customCursor} ${
-          cursorVisible ? styles.customCursorVisible : ""
-        } ${cursorHovered ? styles.customCursorHovered : ""}`}
+        className={styles.customCursor}
+        style={{
+          opacity: 0,
+          transform: "scale(0)",
+        }}
       >
         <span>Explore</span>
       </div>
@@ -194,10 +255,7 @@ export default function Gallery() {
         
         {/* Row 1 - Leftward scrolling row */}
         <div className={styles.marqueeRow}>
-          <div 
-            className={styles.scrollParallaxTrack}
-            style={{ transform: "translateX(calc(var(--scroll-offset, 0) * -0.15px))" }}
-          >
+          <div className={styles.scrollParallaxTrack}>
             {/* Infinite scroller track (contains two duplicates for perfect loop) */}
             <div className={`${styles.marqueeTrack} ${styles.trackLeft}`}>
               {/* Duplicate 1 */}
@@ -225,7 +283,7 @@ export default function Gallery() {
                     <div className={styles.overlayHeader}>
                       <div className={styles.titleGroup}>
                         <span className={styles.cardCategory}>{space.category}</span>
-                        <h4 className={styles.cardTitle}>{space.title}</h4>
+                        <h4 className={space.id === 1 ? styles.cardTitle : styles.cardTitle}>{space.title}</h4>
                       </div>
                       <svg
                         className={styles.arrowIcon}
@@ -387,10 +445,7 @@ export default function Gallery() {
 
         {/* Row 2 - Rightward scrolling row */}
         <div className={styles.marqueeRow}>
-          <div 
-            className={styles.scrollParallaxTrack}
-            style={{ transform: "translateX(calc(var(--scroll-offset, 0) * 0.15px))" }}
-          >
+          <div className={styles.scrollParallaxTrack}>
             <div className={`${styles.marqueeTrack} ${styles.trackRight}`}>
               {/* Duplicate 1 */}
               {row2Spaces.map((space) => (

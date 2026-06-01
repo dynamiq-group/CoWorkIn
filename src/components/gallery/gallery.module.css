@@ -54,8 +54,12 @@
 /* Custom Interactive Cursor Follower */
 .customCursor {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 90px;
   height: 90px;
+  margin-top: -45px;
+  margin-left: -45px;
   border-radius: 50%;
   background-color: #ff4f00; /* Orange magnetic */
   color: #fffefb; /* Canvas white text */
@@ -68,21 +72,7 @@
   align-items: center;
   pointer-events: none;
   z-index: 1000;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
   box-shadow: 0 10px 25px rgba(255, 79, 0, 0.4);
-}
-
-.customCursorVisible {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.customCursorHovered {
-  transform: translate(-50%, -50%) scale(1.2);
-  background-color: #201515; /* Switch color on card hover for contrast */
-  box-shadow: 0 10px 25px rgba(32, 21, 21, 0.4);
 }
 
 /* Marquee Grid and Track Elements */
@@ -110,7 +100,6 @@
 /* Outer track that maps scroll offset parallax shifting */
 .scrollParallaxTrack {
   display: flex;
-  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
 }
 

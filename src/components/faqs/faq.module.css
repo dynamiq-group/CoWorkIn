@@ -114,7 +114,6 @@
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 768px) {
@@ -130,16 +129,8 @@
   stroke: #fffefb;
 }
 
-/* When open, rotate the diagonal arrow and change question text color or weight if desired */
-.faqItemOpen .faqIconWrapper {
-  transform: rotate(-135deg); /* Rotates from pointing down-right to pointing up-right/straight up */
-}
-
-/* Advanced height transition using CSS Grid */
+/* Advanced height transition fully managed by GSAP */
 .faqAnswerWrapper {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 

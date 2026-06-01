@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import styles from "./faq.module.css";
 
 const faqData = [
@@ -38,16 +39,62 @@ const faqData = [
 
 export default function FAQSection() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const listRef = useRef(null);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  useEffect(() => {
+    if (!listRef.current) return;
+    const items = listRef.current.querySelectorAll(`.${styles.faqItem}`);
+
+    items.forEach((item, index) => {
+      const answerWrapper = item.querySelector(`.${styles.faqAnswerWrapper}`);
+      const icon = item.querySelector(`.${styles.faqIconWrapper}`);
+      const isOpen = activeIndex === index;
+
+      if (isOpen) {
+        // Expand height smoothly using GSAP's automatic height calculation
+        gsap.to(answerWrapper, {
+          height: "auto",
+          duration: 0.45,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+        
+        // Rotate arrow to point upwards/straight
+        gsap.to(icon, {
+          rotate: -135,
+          duration: 0.45,
+          ease: "back.out(1.8)",
+          overwrite: "auto"
+        });
+      } else {
+        // Collapse height smoothly
+        gsap.to(answerWrapper, {
+          height: 0,
+          duration: 0.35,
+          ease: "power2.inOut",
+          overwrite: "auto"
+        });
+
+        // Rotate arrow back to original diagonal ↘
+        gsap.to(icon, {
+          rotate: 0,
+          duration: 0.35,
+          ease: "power2.inOut",
+          overwrite: "auto"
+        });
+      }
+    });
+  }, [activeIndex]);
+
   return (
     <section className={styles.faqSection}>
       <div className={styles.faqContainer}>
         <h2 className={styles.faqTitle}>FAQ&apos;S</h2>
-        <div className={styles.faqList}>
+        <div ref={listRef} className={styles.faqList}>
           {faqData.map((item, index) => {
             const isOpen = activeIndex === index;
             return (
@@ -71,7 +118,7 @@ export default function FAQSection() {
                       strokeLinecap="round" 
                       strokeLinejoin="round"
                     >
-                      {/* Down-right arrow matching the screenshot ↘ */}
+                      {/* Down-right arrow matching the design ↘ */}
                       <line x1="7" y1="7" x2="17" y2="17"></line>
                       <polyline points="17 7 17 17 7 17"></polyline>
                     </svg>
@@ -79,9 +126,7 @@ export default function FAQSection() {
                 </button>
                 <div 
                   className={styles.faqAnswerWrapper}
-                  style={{
-                    gridTemplateRows: isOpen ? "1fr" : "0fr"
-                  }}
+                  style={{ height: 0, overflow: "hidden" }} // Managed fully by GSAP
                 >
                   <div className={styles.faqAnswer}>
                     <p className={styles.faqAnswerText}>{item.answer}</p>
