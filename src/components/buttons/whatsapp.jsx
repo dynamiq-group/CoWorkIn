@@ -30,6 +30,16 @@ export default function WhatsappButton({
       aria-label="Chat on WhatsApp"
       style={{ opacity: 0, transform: "scale(0)" }} // Initially hidden for GSAP control
     >
+      {/* Tooltip */}
+      <span className={styles.tooltip}>
+        Chat with us
+        {/* Arrow pointing right */}
+        <span className={styles.tooltipArrow}></span>
+      </span>
+
+      {/* Breathing Red Dot Badge */}
+      <span className={styles.notificationBadge}></span>
+
       <svg
         className={styles.whatsappIcon}
         viewBox="0 0 24 24"

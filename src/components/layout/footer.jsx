@@ -48,7 +48,7 @@ export default function Footer() {
           <nav className={styles.navLinksList}>
             <a href="#locations" className={styles.massiveNavLink}>LOCATIONS</a>
             <a href="#gallery" className={styles.massiveNavLink}>GALLERY</a>
-            <a href="#testimonials" className={styles.massiveNavLink}>ABOUT</a>
+            <a href="#reviews" className={styles.massiveNavLink}>REVIEWS</a>
             <a href="#contact" className={styles.massiveNavLink}>CONTACT</a>
           </nav>
         </div>

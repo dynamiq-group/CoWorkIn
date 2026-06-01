@@ -39,40 +39,26 @@ export default function Hero() {
 
     // Split the 11 client logos into two distinct rows
     const row1Logos = [
-        "/clients/Bajaj_Finserv_Logo.svg",
-        "/clients/Flipkart_logo.svg",
-        "/clients/Google_Pay_Logo.svg",
-        "/clients/L&T.svg",
-        "/clients/royal_enfield.svg",
-        "/clients/IndiaMART_logo.svg",
-        "/clients/Schneider_Electric.svg",
-        "/clients/Zomato_Logo.svg",
-        "/clients/Bosch-logo.svg"
+        "/clients/Bajaj_Finserv_Logo.svg", "/clients/Flipkart_logo.svg", "/clients/Google_Pay_Logo.svg",
+        "/clients/L&T.svg", "/clients/royal_enfield.svg", "/clients/IndiaMART_logo.svg",
+        "/clients/Schneider_Electric.svg", "/clients/Zomato_Logo.svg", "/clients/Bosch-logo.svg"
     ];
 
     const row2Logos = [
-        "/clients/aakash+byjus.svg",
-        "/clients/credresolve.svg",
-        "/clients/hyperface.svg",
-        "/clients/samunnati.svg",
-        "/clients/utkarsh_classes.svg",
-        "/clients/olx_autos.svg",
-        "/clients/toppr.svg",
-        "/clients/deloitte.svg",
-        "/clients/blinkit.svg"
+        "/clients/aakash+byjus.svg", "/clients/credresolve.svg", "/clients/hyperface.svg",
+        "/clients/samunnati.svg", "/clients/utkarsh_classes.svg", "/clients/olx_autos.svg",
+        "/clients/toppr.svg", "/clients/deloitte.svg", "/clients/blinkit.svg"
     ];
 
-    // To make it infinite scrolling seamless, we double each list
-    const doubledRow1 = [...row1Logos, ...row1Logos];
-    const doubledRow2 = [...row2Logos, ...row2Logos];
+    // Extended copies for seamless infinite scroll clipping bounds
+    const extendedRow1 = [...row1Logos, ...row1Logos, ...row1Logos, ...row1Logos];
+    const extendedRow2 = [...row2Logos, ...row2Logos, ...row2Logos, ...row2Logos];
 
     return (
-        <section className={styles.heroSection}>
-            {/* Background & Overlay covering the entire 100vh */}
+        <section className={styles.heroSection} data-scroll-dir={scrollDir}>
             <div className={styles.heroBackground}></div>
             <div ref={overlayRef} className={styles.heroOverlay}></div>
 
-            {/* Top Hero Visual Area (80vh) */}
             <div className={styles.heroVisualArea}>
                 <div className={styles.heroContainer}>
                     <div className={styles.contentWrapper}>
@@ -87,26 +73,69 @@ export default function Hero() {
 
                 {/* Row 1: Scrolling Left */}
                 <div className={styles.logosTrackContainer}>
-                    <div className={`${styles.logosTrack} ${styles.scrollLeft}`}>
-                        {doubledRow1.map((logo, index) => (
-                            <div key={`row1-${index}`} className={styles.logoItem}>
-                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
-                            </div>
-                        ))}
-                    </div>
+                    <MarqueeRow logos={extendedRow1} baseSpeed={-0.8} isMovingDown={scrollDir === "down"} rowKey="row1" />
                 </div>
 
                 {/* Row 2: Scrolling Right */}
                 <div className={styles.logosTrackContainer}>
-                    <div className={`${styles.logosTrack} ${styles.scrollRight}`}>
-                        {doubledRow2.map((logo, index) => (
-                            <div key={`row2-${index}`} className={styles.logoItem}>
-                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
-                            </div>
-                        ))}
-                    </div>
+                    <MarqueeRow logos={extendedRow2} baseSpeed={0.8} isMovingDown={scrollDir === "down"} rowKey="row2" />
                 </div>
             </div>
         </section>
+    );
+}
+
+/* ==========================================================================
+   REUSABLE MARQUEE COMPONENT WITH INERTIA AND ON-THE-SPOT DIRECTION FIX
+   ========================================================================== */
+function MarqueeRow({ logos, baseSpeed, isMovingDown, rowKey }) {
+    const baseX = useMotionValue(0);
+    const trackRef = React.useRef(null);
+
+    // Normalize speed so up and down are perfectly mirrored
+    let currentSpeed = baseSpeed;
+    if (isMovingDown) {
+        currentSpeed = baseSpeed * -1;
+    }
+
+    useAnimationFrame((time, delta) => {
+        if (!trackRef.current) return;
+
+        // THE FIX: Dynamically calculate the exact wrapping threshold.
+        // Because your array is duplicated 4 times, the seamless reset point 
+        // is exactly half of the total rendered track width.
+        const totalWidth = trackRef.current.scrollWidth;
+        const halfWidth = totalWidth / 2;
+
+        // Delta normalizes the frame rate variations across 60Hz - 144Hz screens
+        let moveBy = currentSpeed * (delta / 16);
+        let newX = baseX.get() + moveBy;
+
+        // Pixel-perfect dynamic boundary checking (No more snapping/glitching)
+        if (newX <= -halfWidth) {
+            // If moving left past the seam, wrap around by adding the half-width
+            newX += halfWidth;
+        } else if (newX > 0) {
+            // If moving right past 0, wrap around by subtracting the half-width
+            newX -= halfWidth;
+        }
+
+        baseX.set(newX);
+    });
+
+    return (
+        <motion.div
+            className={styles.scrollWrapper}
+            style={{ x: baseX }}
+        >
+            {/* We attach the ref here to measure the exact layout size of the track container */}
+            <div ref={trackRef} className={styles.logosTrack}>
+                {logos.map((logo, index) => (
+                    <div key={`${rowKey}-${index}`} className={styles.logoItem}>
+                        <Image src={logo} alt="Client Logo" className={styles.logoImage} width={120} height={40} priority />
+                    </div>
+                ))}
+            </div>
+        </motion.div>
     );
 }
