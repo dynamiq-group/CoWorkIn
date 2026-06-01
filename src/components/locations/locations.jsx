@@ -174,7 +174,7 @@ export default function Locations() {
             <div
               ref={destRef}
               className={styles.destPoint}
-              style={{ left: "22%", top: "39%" }}
+              style={{ left: "22%", top: "31%" }}
             >
               {/* Show the landed main pin inside the floating wrapper once flight is complete! */}
               {isMounted && flightProgress >= 0.98 && (
@@ -192,7 +192,7 @@ export default function Locations() {
             {/* Chandigarh Pin */}
             <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
-              style={{ left: "33%", top: "34%", transitionDelay: "60ms" }}
+              style={{ left: "33%", top: "27%", transitionDelay: "60ms" }}
             >
               <div className={styles.dockedPinInner}>
                 <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
@@ -214,7 +214,7 @@ export default function Locations() {
             {/* Mumbai Pin */}
             <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
-              style={{ left: "20%", top: "59%", transitionDelay: "180ms" }}
+              style={{ left: "20.5%", top: "59%", transitionDelay: "180ms" }}
             >
               <div className={styles.dockedPinInner}>
                 <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
@@ -236,7 +236,7 @@ export default function Locations() {
             {/* Indore Pin */}
             <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
-              style={{ left: "36%", top: "49%", transitionDelay: "300ms" }}
+              style={{ left: "35%", top: "45%", transitionDelay: "300ms" }}
             >
               <div className={styles.dockedPinInner}>
                 <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
@@ -269,7 +269,7 @@ export default function Locations() {
             {/* Delhi Pin */}
             <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
-              style={{ left: "34%", top: "39%", transitionDelay: "480ms" }}
+              style={{ left: "34%", top: "35%", transitionDelay: "480ms" }}
             >
               <div className={styles.dockedPinInner}>
                 <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />
@@ -280,7 +280,7 @@ export default function Locations() {
             {/* Guwahati Pin */}
             <div
               className={`${styles.dockedPin} ${showNetwork ? styles.popIn : ""}`}
-              style={{ left: "85%", top: "40%", transitionDelay: "540ms" }}
+              style={{ left: "88%", top: "30%", transitionDelay: "540ms" }}
             >
               <div className={styles.dockedPinInner}>
                 <MapPin size={24} pinColor="#ff4f00" innerColor="#fffefb" />

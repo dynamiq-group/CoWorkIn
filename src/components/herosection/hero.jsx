@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import styles from "./hero.module.css";
 
 export default function Hero() {
@@ -58,7 +57,7 @@ export default function Hero() {
                     <div className={`${styles.logosTrack} ${styles.scrollLeft}`}>
                         {doubledRow1.map((logo, index) => (
                             <div key={`row1-${index}`} className={styles.logoItem}>
-                                <Image src={logo} alt="Client Logo" width={120} height={28} style={{ width: "auto", height: "auto" }} className={styles.logoImage} />
+                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
                             </div>
                         ))}
                     </div>
@@ -69,7 +68,7 @@ export default function Hero() {
                     <div className={`${styles.logosTrack} ${styles.scrollRight}`}>
                         {doubledRow2.map((logo, index) => (
                             <div key={`row2-${index}`} className={styles.logoItem}>
-                                <Image src={logo} alt="Client Logo" width={120} height={28} style={{ width: "auto", height: "auto" }} className={styles.logoImage} />
+                                <img src={logo} alt="Client Logo" className={styles.logoImage} />
                             </div>
                         ))}
                     </div>

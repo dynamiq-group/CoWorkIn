@@ -182,7 +182,7 @@ export default function Gallery() {
         {/* Elegant Centered Section Header */}
         <div className={styles.header}>
           <span className={styles.eyebrow}>Curated Spaces</span>
-          <h2 className={styles.title}>Environments designed for deep focus.</h2>
+          <h2 className={styles.title}>Environments Designed for Deep Focus</h2>
           <p className={styles.subtitle}>
             Explore a virtual showcase of our architectural coworking zones, silent hot desks, fully premium suites, and barista bars.
           </p>

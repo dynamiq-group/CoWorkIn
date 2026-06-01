@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WhatsappButton from "../components/buttons/whatsapp";
+import LenisProvider from "../components/layout/lenisprovider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
@@ -76,7 +77,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        {children}
+        <LenisProvider>
+          {children}
+        </LenisProvider>
         <WhatsappButton />
         <SpeedInsights />
       </body>
