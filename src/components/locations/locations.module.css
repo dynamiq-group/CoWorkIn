@@ -1,12 +1,10 @@
 /* CoWorkIn Showroom Section - Zapier Inspired Theme Styles */
 
 .section {
-  background-color: transparent;
-  /* Canvas - transparent to show grainy body background */
-  padding: 100px 0 20px 0;
+  background-color: #fffefb; /* Canvas - warm off-white */
+  padding: 100px 0;
   width: 100%;
-  color: #201515;
-  /* Ink - deep warm coffee */
+  color: #201515; /* Ink - deep warm coffee */
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow: hidden;
 }
@@ -21,7 +19,7 @@
 .header {
   text-align: center;
   max-width: 850px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 56px auto;
 }
 
 .eyebrow {
@@ -29,8 +27,7 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: #ff4f00;
-  /* Zapier Orange */
+  color: #ff4f00; /* Zapier Orange */
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -39,8 +36,7 @@
   font-size: 42px;
   font-weight: 700;
   line-height: 1.15;
-  color: #201515;
-  /* Ink */
+  color: #201515; /* Ink */
   margin-bottom: 20px;
   letter-spacing: -0.8px;
 }
@@ -48,8 +44,7 @@
 .subtitle {
   font-size: 18.5px;
   line-height: 1.65;
-  color: #605d52;
-  /* Body text color */
+  color: #605d52; /* Body text color */
   margin: 0;
 }
 
@@ -90,8 +85,7 @@
 }
 
 .highlightCities:hover :global(.pin-inner) {
-  transform: scale(0.8);
-  /* Inner circle contracts slightly on hover */
+  transform: scale(0.8); /* Inner circle contracts slightly on hover */
 }
 
 /* Massive Map Container below header */
@@ -100,19 +94,16 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: -30px;
 }
 
 .mapWrapper {
   width: 100%;
-  max-width: 780px;
-  /* Made the map significantly bigger */
+  max-width: 780px; /* Made the map significantly bigger */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  position: relative;
-  /* Essential for absolute destPoint anchoring */
+  position: relative; /* Essential for absolute destPoint anchoring */
   animation: floatMap 6s ease-in-out infinite;
   transform-origin: center center;
 }
@@ -127,12 +118,9 @@
   0% {
     transform: translateY(0px) rotate(0deg);
   }
-
   50% {
-    transform: translateY(-15px) rotate(0.6deg);
-    /* Smooth levitation and subtle angle shift */
+    transform: translateY(-15px) rotate(0.6deg); /* Smooth levitation and subtle angle shift */
   }
-
   100% {
     transform: translateY(0px) rotate(0deg);
   }
@@ -150,8 +138,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: transparent;
-  /* Invisible structural anchor */
+  background-color: transparent; /* Invisible structural anchor */
   pointer-events: none;
 }
 
@@ -170,12 +157,9 @@
   0% {
     transform: scale(1);
   }
-
   50% {
-    transform: scale(1.15) translateY(-6px);
-    /* Elastic impact squash */
+    transform: scale(1.15) translateY(-6px); /* Elastic impact squash */
   }
-
   100% {
     transform: scale(1) translateY(0);
   }
@@ -186,7 +170,13 @@
   position: absolute;
   transform: translate(-50%, -100%) scale(0);
   opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
   z-index: 20;
+}
+
+.dockedPin.popIn {
+  transform: translate(-50%, -100%) scale(1);
+  opacity: 1;
 }
 
 .dockedPinInner {
@@ -213,12 +203,10 @@
     transform: scale(0.8);
     opacity: 0.2;
   }
-
   50% {
     transform: scale(1.5);
     opacity: 0.5;
   }
-
   100% {
     transform: scale(0.8);
     opacity: 0.2;
@@ -260,34 +248,16 @@
   opacity: 0;
   z-index: 25;
   pointer-events: auto; /* Make the main map pin hoverable once landed */
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.landedMainPin.popIn {
+  transform: translate(-50%, -100%) scale(1);
+  opacity: 1;
+  animation: landBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 /* Custom label positioning for landed Jaipur main pin */
 .mainPinLabel {
-  bottom: -32px;
-  /* Shifted lower because MainMapPin is larger (46px) */
-}
-
-@media (max-width: 1024px) {
-  .section {
-    padding: 80px 0 20px 0;
-  }
-  .header {
-    margin: 0 auto 0 auto;
-  }
-  .mapContainer {
-    margin-top: -20px;
-  }
-}
-
-@media (max-width: 767px) {
-  .section {
-    padding: 60px 0 15px 0;
-  }
-  .header {
-    margin: 0 auto 0 auto;
-  }
-  .mapContainer {
-    margin-top: -15px;
-  }
+  bottom: -32px; /* Shifted lower because MainMapPin is larger (46px) */
 }

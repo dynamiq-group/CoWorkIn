@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import React from "react";
 import styles from "./whatsapp.module.css";
 
 export default function WhatsappButton({
@@ -10,36 +9,15 @@ export default function WhatsappButton({
 }) {
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-  const buttonRef = useRef(null);
-
-  useEffect(() => {
-    // Elegant delayed pop-in to let primary page loading elements render first
-    gsap.fromTo(buttonRef.current,
-      { scale: 0, y: 40, opacity: 0 },
-      { scale: 1, y: 0, opacity: 1, duration: 0.8, delay: 1.6, ease: "back.out(1.6)" }
-    );
-  }, []);
 
   return (
     <a
-      ref={buttonRef}
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       className={styles.whatsappFloat}
       aria-label="Chat on WhatsApp"
-      style={{ opacity: 0, transform: "scale(0)" }} // Initially hidden for GSAP control
     >
-      {/* Tooltip */}
-      <span className={styles.tooltip}>
-        Chat with us
-        {/* Arrow pointing right */}
-        <span className={styles.tooltipArrow}></span>
-      </span>
-
-      {/* Breathing Red Dot Badge */}
-      <span className={styles.notificationBadge}></span>
-
       <svg
         className={styles.whatsappIcon}
         viewBox="0 0 24 24"

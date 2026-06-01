@@ -1,12 +1,10 @@
 /* Gallery Section - Premium Animation Styles */
 
 .gallerySection {
-  background-color: transparent;
-  /* Canvas Soft - cream-tinted soft surface changed to transparent to show body background */
-  padding: 20px 0 20px 0;
+  background-color: #f8f4f0; /* Canvas Soft - cream-tinted soft surface */
+  padding: 100px 0;
   width: 100%;
-  color: #201515;
-  /* Ink */
+  color: #201515; /* Ink */
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow: hidden;
   position: relative;
@@ -32,8 +30,7 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: #ff4f00;
-  /* Zapier Orange */
+  color: #ff4f00; /* Zapier Orange */
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -42,8 +39,7 @@
   font-size: 42px;
   font-weight: 700;
   line-height: 1.15;
-  color: #201515;
-  /* Ink */
+  color: #201515; /* Ink */
   margin-bottom: 20px;
   letter-spacing: -0.8px;
 }
@@ -51,25 +47,18 @@
 .subtitle {
   font-size: 18.5px;
   line-height: 1.65;
-  color: #605d52;
-  /* Body text color */
+  color: #605d52; /* Body text color */
   margin: 0;
 }
 
 /* Custom Interactive Cursor Follower */
 .customCursor {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 90px;
   height: 90px;
-  margin-top: -45px;
-  margin-left: -45px;
   border-radius: 50%;
-  background-color: #ff4f00;
-  /* Orange magnetic */
-  color: #fffefb;
-  /* Canvas white text */
+  background-color: #ff4f00; /* Orange magnetic */
+  color: #fffefb; /* Canvas white text */
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -79,7 +68,21 @@
   align-items: center;
   pointer-events: none;
   z-index: 1000;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
   box-shadow: 0 10px 25px rgba(255, 79, 0, 0.4);
+}
+
+.customCursorVisible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.customCursorHovered {
+  transform: translate(-50%, -50%) scale(1.2);
+  background-color: #201515; /* Switch color on card hover for contrast */
+  box-shadow: 0 10px 25px rgba(32, 21, 21, 0.4);
 }
 
 /* Marquee Grid and Track Elements */
@@ -90,8 +93,7 @@
   flex-direction: column;
   gap: 24px;
   padding: 10px 0;
-  cursor: none;
-  /* Hide default cursor to show custom cursor follower */
+  cursor: none; /* Hide default cursor to show custom cursor follower */
   z-index: 2;
 }
 
@@ -108,6 +110,7 @@
 /* Outer track that maps scroll offset parallax shifting */
 .scrollParallaxTrack {
   display: flex;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
 }
 
@@ -137,7 +140,6 @@
   0% {
     transform: translateX(0);
   }
-
   100% {
     transform: translateX(-50%);
   }
@@ -147,7 +149,6 @@
   0% {
     transform: translateX(-50%);
   }
-
   100% {
     transform: translateX(0);
   }
@@ -164,9 +165,9 @@
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: 0 10px 30px rgba(32, 21, 21, 0.03);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.6s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.6s ease;
   will-change: transform, box-shadow;
   display: flex;
   flex-direction: column;
@@ -218,15 +219,13 @@
   flex-direction: column;
   gap: 12px;
   /* Premium Slide-Up animation mechanism */
-  transform: translateY(calc(100% - 62px));
-  /* Only show room title & category header by default */
+  transform: translateY(calc(100% - 62px)); /* Only show room title & category header by default */
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
 .card:hover .cardOverlay {
-  transform: translateY(0);
-  /* Reveal all space metrics and amenities on hover */
+  transform: translateY(0); /* Reveal all space metrics and amenities on hover */
 }
 
 /* Header line within the card overlay */
@@ -246,8 +245,7 @@
 .cardCategory {
   font-size: 11px;
   font-weight: 700;
-  color: #ff4f00;
-  /* Saturated orange accent */
+  color: #ff4f00; /* Saturated orange accent */
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -255,8 +253,7 @@
 .cardTitle {
   font-size: 17px;
   font-weight: 700;
-  color: #201515;
-  /* Ink */
+  color: #201515; /* Ink */
 }
 
 .arrowIcon {
@@ -265,8 +262,7 @@
 }
 
 .card:hover .arrowIcon {
-  transform: translate(2px, -2px) rotate(45deg);
-  /* Bounce and spin slightly on card hover */
+  transform: translate(2px, -2px) rotate(45deg); /* Bounce and spin slightly on card hover */
 }
 
 /* Divider inside card overlay */
@@ -294,8 +290,7 @@
 .cardDescription {
   font-size: 13.5px;
   line-height: 1.5;
-  color: #605d52;
-  /* Body text color */
+  color: #605d52; /* Body text color */
   margin: 0;
 }
 
@@ -322,13 +317,13 @@
 /* MOBILE AND TABLET RESPONSIVENESS */
 @media (max-width: 1024px) {
   .gallerySection {
-    padding: 20px 0 20px 0;
+    padding: 80px 0;
   }
-
+  
   .title {
     font-size: 34px;
   }
-
+  
   .card {
     width: 310px;
     height: 240px;
@@ -341,29 +336,29 @@
 
 @media (max-width: 767px) {
   .gallerySection {
-    padding: 15px 0 15px 0;
+    padding: 60px 0;
   }
-
+  
   .title {
     font-size: 28px;
     letter-spacing: -0.5px;
   }
-
+  
   .subtitle {
     font-size: 16px;
   }
-
+  
   /* Disable custom cursor on touch devices */
   .customCursor {
     display: none !important;
   }
-
+  
   .marqueeContainer {
     cursor: auto;
     gap: 16px;
     padding: 0;
   }
-
+  
   /* Degrade marquee animations and show touch scroll horizontal rows instead */
   .marqueeRow {
     overflow-x: auto;
@@ -371,42 +366,39 @@
     -webkit-overflow-scrolling: touch;
     padding: 10px 24px;
     margin: 0 -24px;
-    scrollbar-width: none;
-    /* Hide scrollbars for a clean native app look */
+    scrollbar-width: none; /* Hide scrollbars for a clean native app look */
   }
-
+  
   .marqueeRow::-webkit-scrollbar {
     display: none;
   }
-
+  
   .scrollParallaxTrack {
-    transform: none !important;
-    /* Disable parallax scrolling on mobile */
+    transform: none !important; /* Disable parallax scrolling on mobile */
   }
-
+  
   .marqueeTrack {
-    animation: none !important;
-    /* Disable continuous marquee sliding */
+    animation: none !important; /* Disable continuous marquee sliding */
     gap: 16px;
   }
-
+  
   /* Hide the duplicated cards track on mobile to prevent excessive scrolling */
-  .marqueeTrack>div:nth-child(n+6) {
+  .marqueeTrack > div:nth-child(n+6) {
     display: none !important;
   }
-
+  
   .card {
     width: 280px;
     height: 220px;
     scroll-snap-align: start;
     border-radius: 12px;
   }
-
+  
   .cardOverlay {
     /* Reveal card details by default on touch screens, or slide it up less dramatically */
     transform: translateY(calc(100% - 54px));
   }
-
+  
   /* In mobile, allow hover status on active touch focus */
   .card:active {
     transform: scale(0.98);
