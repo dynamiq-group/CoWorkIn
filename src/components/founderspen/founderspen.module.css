@@ -1,0 +1,167 @@
+.foundersPenSection {
+  background-color: #ff4f00; /* Vibrant brand orange matches FAQ background */
+  color: #fffefb; /* Canvas light text */
+  padding: 80px 0; /* Premium balanced padding on mobile */
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .foundersPenSection {
+    padding: 110px 0; /* Perfectly balanced vertical rhythm */
+  }
+}
+
+.foundersPenContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.gridWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .gridWrapper {
+    grid-template-columns: 4.5fr 7.5fr;
+    gap: 80px;
+  }
+}
+
+/* Image Column Styles */
+.imageColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  max-width: 580px; /* Further increased size to command strong presence */
+  aspect-ratio: 3 / 4; /* Made taller for a premium vertical portrait proportion */
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    0 20px 48px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 32px 64px rgba(0, 0, 0, 0.35);
+}
+
+.founderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover .founderImage {
+  transform: scale(1.04);
+}
+
+.imageOverlayBorder {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Content Column Styles */
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.95rem; /* Increased size */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 2.5rem; /* Increased size on mobile */
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-transform: uppercase;
+  color: #fffefb;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3.5rem; /* Increased size on desktop */
+  }
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background-color: #fffefb;
+  margin: 24px 0;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+.letterContent {
+  font-size: 1.15rem; /* Increased size on mobile */
+  line-height: 1.75; 
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 24px; 
+}
+
+@media (min-width: 768px) {
+  .letterContent {
+    font-size: 1.3rem; /* Increased size on desktop */
+  }
+}
+
+.founderSignature {
+  margin-top: 44px; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.founderName {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 1.8rem; /* Increased size */
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #fffefb;
+  letter-spacing: -0.01em;
+}
+
+.founderRole {
+  font-size: 1.1rem; /* Increased size */
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}

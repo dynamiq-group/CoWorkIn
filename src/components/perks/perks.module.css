@@ -1,0 +1,166 @@
+.perksSection {
+  background-color: #ff4f00; /* Vibrant active orange (matches FAQ background) */
+  color: #fffefb; /* Canvas light text */
+  padding: 80px 0;
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .perksSection {
+    padding: 110px 0;
+  }
+}
+
+.perksContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.perksHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .perksHeader {
+    margin-bottom: 64px;
+  }
+}
+
+.perksEyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.perksTitle {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  color: #fffefb;
+}
+
+@media (min-width: 768px) {
+  .perksTitle {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .perksTitle {
+    font-size: 4rem;
+  }
+}
+
+.perksSubtitle {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .perksSubtitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Premium glassmorphism perks grid */
+.perksGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .perksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .perksGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.perkCard {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Interactive card hover states */
+.perkCard:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-6px);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.perkIconWrapper {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  color: #fffefb;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.perkCard:hover .perkIconWrapper {
+  background: #fffefb;
+  color: #ff4f00; /* Contrast orange icon color on hover */
+  transform: scale(1.1) rotate(6deg);
+}
+
+.perkIconWrapper svg {
+  width: 24px;
+  height: 24px;
+}
+
+.perkCardTitle {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #fffefb;
+  letter-spacing: -0.01em;
+}
+
+.perkCardDescription {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}

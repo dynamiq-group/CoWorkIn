@@ -6,8 +6,9 @@ import styles from "./footer.module.css";
 
 export default function Footer() {
   return (
-    <footer className={styles.footerContainer} id="contact">
-      <div className={styles.footerContent}>
+    <div className={styles.stickyFooterWrapper}>
+      <footer className={styles.footerContainer} id="contact">
+        <div className={styles.footerContent}>
         
         {/* Left Branding & Cinematic Statement Column */}
         <div className={styles.brandCol}>
@@ -149,5 +150,6 @@ export default function Footer() {
         COWORKIN
       </div>
     </footer>
-  );
+  </div>
+);
 }

@@ -70,7 +70,7 @@ export default function Navbar() {
           <a href="#reviews" className={styles.navLink}>
             Reviews
           </a>
-          <a href="#about" className={styles.navLink}>
+          <a href="#founders-pen" className={styles.navLink}>
             About
           </a>
         </nav>
@@ -120,12 +120,16 @@ export default function Navbar() {
             Reviews
           </a>
           <a
-            href="#about"
-            className={styles.mobileCtaButton}
+            href="#founders-pen"
+            className={styles.mobileNavLink}
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </a>
+          <CtaButton
+            className={styles.mobileCtaButton}
+            onClick={() => setMobileMenuOpen(false)}
+          />
         </nav>
       </div>
     </header>

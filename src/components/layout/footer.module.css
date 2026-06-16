@@ -1,16 +1,51 @@
 /* Premium Footer Stylesheet */
 
+.stickyFooterWrapper {
+  position: relative;
+  height: 1050px; /* Mobile height */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 1; /* Sits behind z-index 2 main overlay content */
+}
+
+@media (min-width: 768px) {
+  .stickyFooterWrapper {
+    height: 800px; /* Tablet height */
+  }
+}
+
+@media (min-width: 1025px) {
+  .stickyFooterWrapper {
+    height: 620px; /* Desktop height */
+  }
+}
+
 .footerContainer {
-  background-color: transparent;
-  /* Canvas Soft changed to transparent to show grainy body background seamlessly */
+  background-color: #f8f4f0; /* Canvas Soft solid cream background */
   padding: 96px 48px 0 48px;
   width: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   overflow: hidden;
-  position: relative;
+  position: fixed; /* Fixed at the bottom of the viewport */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1050px; /* Matches wrapper height */
+  z-index: 1;
   border-top: 1px solid rgba(197, 192, 177, 0.25);
+}
+
+@media (min-width: 768px) {
+  .footerContainer {
+    height: 800px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .footerContainer {
+    height: 620px;
+  }
 }
 
 .footerContent {
